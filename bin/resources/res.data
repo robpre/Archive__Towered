@@ -1,0 +1,9 @@
+
+char.count=1
+char0.name=Blaire #rethink name? :P placeholder
+char0.res=char/blaire_tileset.tsi
+char0.description=This is a test character description
+maps.count=1
+level0.name=TestLevel
+level0.res=maps/lvl0.map
+level0.description=This is a test description :D
