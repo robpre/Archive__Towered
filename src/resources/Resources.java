@@ -6,13 +6,19 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Properties;
 
+import towered.Settings;
+
 public class Resources {
 	
 	private HashMap<String, BufferedImage> staticImages;
 	private HashMap<String, Map> maps;
 	private HashMap<String, Character> chars;
+	private Streams streams;
+	private Data d;
 	
-	public Resources(){
+	public Resources(Settings s){
+		streams = new Streams();
+		
 		//stream interaction
 		//gather resources
 		//Initialise cache
@@ -27,12 +33,13 @@ public class Resources {
 	 * 		-name and locations of maps
 	 */
 	private class Data{
-		int characterCount,mapCount;
+		int characterCount,mapCount,miscCount;
 		DataO[] characters;
 		DataO[] maps;
 		public Data(Properties p){
 			mapCount = Integer.parseInt(p.getProperty("maps.count"));
 			characterCount = Integer.parseInt(p.getProperty("char.count"));
+			miscCount = Interger.parseInt(p.getProperty(M))
 			maps = new DataO[mapCount];
 			characters = new DataO[characterCount];
 			for(int i=0;i<mapCount;i++){

@@ -1,11 +1,24 @@
 package resources;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 public class Streams {
-	public void extResource(String item){
-		item = "resources/" + item;
-		ClassLoader.getSystemResource(item).toString();
+	public InputStream extResource(String item){
+		InputStream out;
+		try{
+			out = new FileInputStream(item);
+		} catch(FileNotFoundException e){
+			System.out.println("Could not find: \n" + item + "\"\nReturning null.");
+			out = null;
+		} catch(Exception e){
+			System.out.println("Error found: " + e.toString());
+			out = null;
+		}
+		return out;
 	}
-	public void intResource(String item){
-		
-	}
+    public InputStream getResourceAsStream(String name) {
+    	return ClassLoader.getSystemResourceAsStream(name);
+    }
 }

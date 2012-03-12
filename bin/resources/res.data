@@ -6,3 +6,6 @@ maps.count=1
 level0.name=TestLevel
 level0.res=maps/lvl0.map
 level0.description=This is a test description :D
+misc.count=2;
+misc0.name=Main
+misc0.res=menu.tsi
