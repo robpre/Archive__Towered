@@ -2,21 +2,20 @@ package resources;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Properties;
 
 public class Resources {
 	
-	private Hashtable<String, Map> mapList;
-	private Hashtable<String, Character> charList;
-	private Hashtable<String, BufferedImage> imageList;
-	private Hashtable<String, Animation> animList;
+	private HashMap<String, BufferedImage> staticImages;
+	private HashMap<String, Map> maps;
+	private HashMap<String, Character> chars;
 	
 	public Resources(){
-		mapList = new Hashtable<String, Map>();
-		charList = new Hashtable<String, Character>();
-		imageList = new Hashtable<String, BufferedImage>();
-		animList = new Hashtable<String, Animation>();
+		//stream interaction
+		//gather resources
+		//Initialise cache
 	}
 	
 	/*
@@ -28,9 +27,9 @@ public class Resources {
 	 * 		-name and locations of maps
 	 */
 	private class Data{
-		public int characterCount,mapCount;
-		private DataO[] characters;
-		private DataO[] maps;
+		int characterCount,mapCount;
+		DataO[] characters;
+		DataO[] maps;
 		public Data(Properties p){
 			mapCount = Integer.parseInt(p.getProperty("maps.count"));
 			characterCount = Integer.parseInt(p.getProperty("char.count"));

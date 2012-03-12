@@ -2,3 +2,7 @@ formats:
   -images: They need to be given a different name, conflicts. just load them into a hashmap
 	-animation: array of images that make up the animation + times etc
 	-sprites: array of animations used in making a character
+	
+Images:
+	-some form of resize data, file name tile0.png -> 860x672_tile0.png
+	
