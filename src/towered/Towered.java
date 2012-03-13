@@ -9,7 +9,7 @@ public class Towered extends C{
 	
 	@Override
 	public void init(){
-		
+		gameSettings = new Settings("Towered");
 		super.init(); // do this at the end of the init		
 	}
 	
@@ -18,10 +18,12 @@ public class Towered extends C{
 		
 	}
 	
-	public void update(long timePassed){}
+	public void update(long timePassed){
+		addDebugText("hello");
+	}
 
 	@Override
 	public void draw(Graphics2D g) {
-		
+		drawDebugText(g);
 	}
 }

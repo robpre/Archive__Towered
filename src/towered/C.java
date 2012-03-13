@@ -1,17 +1,20 @@
 package towered;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
-import towered.Settings;
+import java.util.ArrayList;
+
+import resources.Resources;
 import window.ScreenManager;
 
 public abstract class C {
+	
 	public Settings gameSettings;
-	
-	
+	private ArrayList<String> debugText;
+	public Resources resources;
 	private boolean running;
 	protected ScreenManager s;
+	
 	
 	public void stop(){
 		running = false;
@@ -28,15 +31,16 @@ public abstract class C {
 	}
 	
 	private void close() {
-		System.exit(0);
+		//System.exit(0);
 	}
 
 	//set screen size and launch
 	public void init(){
-		gameSettings = new Settings("untitledtdm", "860x672", 860, 672, 32, 65, 68, 32);
+		resources = new Resources(gameSettings);
+		gameSettings = resources.SETTINGS.clone();
 		s = new ScreenManager(gameSettings);
 		s.launch();
-		s.debug();
+		s.debug(); 
 		running = true;
 	}
 	
@@ -62,11 +66,28 @@ public abstract class C {
 		}
 	}
 	
+	public void drawDebugText(Graphics2D g){
+		g.setColor(Color.white);
+		for(int i=0;i<debugText.size();i++){
+			g.drawString(debugText.get(i), 50, i*25);
+		}
+	}
+	
+	public void addDebugText(String s){
+		debugText.add(s);
+		if(debugText.size()>10){
+			debugText.remove(0);
+			debugText.trimToSize();
+		}
+	}
+	
 	//update physics
 	public void physics(long timePassed){}
 
 	//update animation
-	public void update(long timePassed){}
+	public void update(long timePassed){
+		
+	}
 	
 	//draws to screen
 	public abstract void draw(Graphics2D g);

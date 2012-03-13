@@ -18,7 +18,8 @@ public class Streams {
 		}
 		return out;
 	}
-    public InputStream getResourceAsStream(String name) {
-    	return ClassLoader.getSystemResourceAsStream(name);
+    public InputStream intResource(String item){
+    	//System.out.println(ClassLoader.getSystemResource("resources/" + item));
+		return ClassLoader.getSystemResourceAsStream("resources/" + item);
     }
 }
