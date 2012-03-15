@@ -1,4 +1,4 @@
-System.source=tile0.png
+system.source=tile0.png
 type=map
 tile.map.count=17
 system.regex=#

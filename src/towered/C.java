@@ -13,7 +13,9 @@ public abstract class C {
 	private ArrayList<String> debugText;
 	public Resources resources;
 	private boolean running;
+	private static boolean debug;
 	protected ScreenManager s;
+	private static String sStore;
 	
 	
 	public void stop(){
@@ -36,12 +38,34 @@ public abstract class C {
 
 	//set screen size and launch
 	public void init(){
-		resources = new Resources(gameSettings);
+		if(debug){
+			resources = new Resources(gameSettings, sStore);
+			debugText = new ArrayList<String>();
+		}
+		else{
+			resources = new Resources(gameSettings);
+		}			
 		gameSettings = resources.SETTINGS.clone();
 		s = new ScreenManager(gameSettings);
 		s.launch();
 		s.debug(); 
 		running = true;
+	}
+	
+	public static void parseCmdLine(String[] args){
+		for(int i=0, j=1;i<args.length && j<args.length;i++, j++){
+			String s = args[i];
+			String t = args[j];
+			switch(s.charAt(0)){
+			case '-':
+				if(s.substring(1).toLowerCase().equals("debug"))
+					debug = (t.equals("true"));
+				if(s.substring(1).toLowerCase().equals("settings"))
+					sStore = t;
+				else
+					sStore= null;
+			}
+		}
 	}
 	
 	public void gameLoop(){
@@ -69,7 +93,7 @@ public abstract class C {
 	public void drawDebugText(Graphics2D g){
 		g.setColor(Color.white);
 		for(int i=0;i<debugText.size();i++){
-			g.drawString(debugText.get(i), 50, i*25);
+			g.drawString(i + ": " + debugText.get(i), 50, i*25);
 		}
 	}
 	

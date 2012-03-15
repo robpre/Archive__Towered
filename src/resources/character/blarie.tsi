@@ -1,4 +1,5 @@
 #Sat Apr 30 02:30:27 BST 2011
+system.type=char
 tile.anim.count=9
 tile.anim.voidname=blank
 system.regex=#

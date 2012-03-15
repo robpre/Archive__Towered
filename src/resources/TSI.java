@@ -16,24 +16,34 @@ public class TSI {
 	private ArrayList<Rectangle> mapTile;
 	
 	public TSI(Properties p){
-		name = p.getProperty("System.source");
-		type = p.getProperty("type");
-		regex = p.getProperty("System.regex");
-		w = Integer.parseInt(p.getProperty("tile.size.w"));
-		h = Integer.parseInt(p.getProperty("tile.size.h"));
-		count = Integer.parseInt(p.getProperty("tile." + type + ".count"));
+		name = p.getProperty("system.source");
+		type = p.getProperty("system.type");
 		if(type.equals("map"))
 			map(p);
-		else
+		else if(type.equals("char"))
 			chararcter(p);
+		else
+			staticImp(p);
 	}
 
 	private void chararcter(Properties p) {
 		charTile = new HashMap<String,Rectangle>();
+		regex = p.getProperty("system.regex");
+		w = Integer.parseInt(p.getProperty("tile.size.w"));
+		h = Integer.parseInt(p.getProperty("tile.size.h"));
+		count = Integer.parseInt(p.getProperty("tile." + type + ".count"));
 	}
 
 	private void map(Properties p) {
 		mapTile = new ArrayList<Rectangle>();	
+		regex = p.getProperty("system.regex");
+		w = Integer.parseInt(p.getProperty("tile.size.w"));
+		h = Integer.parseInt(p.getProperty("tile.size.h"));
+		count = Integer.parseInt(p.getProperty("tile." + type + ".count"));
+	}
+	
+	private void staticImp(Properties p){
+		
 	}
 	
 	private Rectangle conv(String s){

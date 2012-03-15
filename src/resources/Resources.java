@@ -1,9 +1,12 @@
 package resources;
 
 import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
+
+import javax.imageio.ImageIO;
 
 import towered.Settings;
 
@@ -20,17 +23,38 @@ public class Resources {
 	private String settingsLoc;
 	
 	public Resources(Settings s){
-		SETTINGS = s;
-		
 		settingsLoc = System.getenv("appdata") + "\\" + s.GAMENAME + "\\game.settings";
-		stream = new Streams();		
+		init(s);
+	}
+	
+	public Resources(Settings s, String sl){
+		settingsLoc = sl;
+		init(s);
+	}
+	
+	public BufferedImage getStaticImage(String s){
+		if(!staticImages.get(s).equals(null))
+			return staticImages.get(s);
+		else 
+			return null;
+	}
+	
+	private void init(Settings s){
 		properties = new HashMap<String, Properties>();
 		staticImages = new HashMap<String, BufferedImage>();
+		maps = new HashMap<String, Map>();
+		chars = new HashMap<String, Character>();
+		SETTINGS = s;		
+		stream = new Streams();				
 		
 		properties.put("resData", getIntP("res.data"));
+		if(
 		properties.put("settings", getExtP(settingsLoc));
 		
 		d = new Data(properties.get("resData"));
+		for(DataO dO: d.misc){
+			staticImages.put(dO.name, getIntImage(String.format("misc/%s", dO.resourceLocation)));
+		}
 		
 
 		SETTINGS = getSettings();
@@ -38,6 +62,28 @@ public class Resources {
 		//stream interaction
 		//gather resources
 		//Initialise cache
+	}
+	
+	private void createSettings(){
+		SETTINGS = new Settings( // Settings(String gn, String q, int w, int h, int j, int l, int r, int a)
+				SETTINGS.GAMENAME,
+				"860x672",
+				860,
+				672,
+				32,
+				65,
+				68,
+				32
+		);
+	}
+	
+	private void storeSettings(){
+		try {
+			FileOutputStream fos = new FileOutputStream(settingsLoc);
+			SETTINGS.getProps().store(fos, null);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	private Settings getSettings(){
@@ -51,7 +97,21 @@ public class Resources {
 					Integer.parseInt(properties.get("settings").getProperty("user.left")),
 					Integer.parseInt(properties.get("settings").getProperty("user.right")),
 					Integer.parseInt(properties.get("settings").getProperty("user.attack"))
-				);
+		);
+	}
+	
+	private BufferedImage getIntImage(String s){
+		try{
+			return ImageIO.read(stream.intResource(s));
+		} catch(IOException e){
+			System.out.println("unable to find file: " + s);
+			e.printStackTrace();
+			return null;
+		} catch(IllegalArgumentException e){
+			System.out.println("unable to find file: " + s);
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	private Properties getIntP(String s){
@@ -68,6 +128,7 @@ public class Resources {
 	
 	private Properties getExtP(String s){
 		Properties pBin = new Properties();
+		System.out.println(s);
 		try {
 			pBin.load(stream.extResource(s));
 		} catch (IOException e) {

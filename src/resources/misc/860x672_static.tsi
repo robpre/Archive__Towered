@@ -1,3 +1,4 @@
+system.type=static
 static.count=2
 static.res=static.png
 static0.name=startbutton
