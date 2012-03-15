@@ -1,6 +1,7 @@
 package resources;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -48,8 +49,15 @@ public class Resources {
 		stream = new Streams();				
 		
 		properties.put("resData", getIntP("res.data"));
-		if(
-		properties.put("settings", getExtP(settingsLoc));
+		if(new File(settingsLoc).exists()){
+			properties.put("settings", getExtP(settingsLoc));
+		}else{
+			settingsLoc = System.getenv("appdata") + "\\" + s.GAMENAME + "\\game.settings";
+			createSettings();
+			storeSettings();
+			properties.put("settings", getExtP(settingsLoc));
+		}
+		
 		
 		d = new Data(properties.get("resData"));
 		for(DataO dO: d.misc){
