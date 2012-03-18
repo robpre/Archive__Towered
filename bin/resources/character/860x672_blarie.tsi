@@ -1,7 +1,12 @@
 #Sat Apr 30 02:30:27 BST 2011
+system.type=char
+system.source=
+system.regex=#
+system.width=3072
+system.count=418
+system.height=672
 tile.anim.count=9
 tile.anim.voidname=blank
-system.regex=#
 tile34.name=taunt2
 tile18.name=attack1
 tile29.name=taunt2

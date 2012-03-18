@@ -1,6 +1,9 @@
+#C friday #
 system.type=static
-static.count=2
-static.res=static.png
+system.count=2
+system.source=860x672_static.png
+system.width=3072
+system.height=672
 static0.name=startbutton
 static0.x=0
 static0.y=0
