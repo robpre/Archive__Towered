@@ -1,0 +1,15 @@
+char.count=1
+char0.name=Blaire #rethink name? :P placeholder
+char0.res=blaire_tileset.tsi
+char0.description=This is a test character description
+maps.count=1
+level0.name=TestLevel
+level0.res=lvl0.map
+level0.description=This is a test description :D
+misc.count=2
+misc0.name=Main
+misc0.res=menu.tsi
+misc0.description=menu background
+misc1.name=Static
+misc1.res=static.tsi
+misc1.description=static images
