@@ -1,4 +1,5 @@
 #Wed Aug 17 10:06:57 BST 2011
+<<<<<<< HEAD
 system.type=map
 system.source=tile0.png
 system.count=418
@@ -6,6 +7,12 @@ system.width=3072
 system.height=672
 tile400.num=13
 tile368.num=5
+=======
+map.res=tile0.png
+tile400.num=13
+tile368.num=5
+tile.bounds.count=418
+>>>>>>> origin/master
 tile145.num=3
 tile137.num=4
 tile129.num=5
@@ -38,6 +45,10 @@ tile144.num=3
 tile359.num=12
 tile136.num=5
 tile128.num=4
+<<<<<<< HEAD
+=======
+map.width=3072
+>>>>>>> origin/master
 tile198.num=3
 tile230.num=12
 tile222.num=5
@@ -148,6 +159,10 @@ tile355.num=5
 tile132.num=3
 tile347.num=9
 tile124.num=5
+<<<<<<< HEAD
+=======
+map.height=672
+>>>>>>> origin/master
 tile339.num=9
 tile116.num=7
 tile194.num=6
@@ -203,6 +218,10 @@ tile88.num=6
 tile361.num=12
 tile353.num=9
 tile130.num=4
+<<<<<<< HEAD
+=======
+tile.width=48
+>>>>>>> origin/master
 tile345.num=9
 tile122.num=4
 tile337.num=9
@@ -373,6 +392,10 @@ tile12.num=3
 tile90.num=6
 tile233.num=5
 tile82.num=6
+<<<<<<< HEAD
+=======
+tile.height=48
+>>>>>>> origin/master
 tile225.num=3
 tile74.num=6
 tile217.num=5

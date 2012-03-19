@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #C Map tile information sheet #
 system.type=tile
 system.count=17
@@ -5,6 +6,15 @@ system.source=860x672_tile0.png
 system.width=48
 system.height=48
 system.regex=/
+=======
+System.source=tile0.png
+type=map
+tile.map.count=17
+system.regex=#
+tile.count=25
+tile.size.w=48
+tile.size.h=48
+>>>>>>> origin/master
 tile20.bounds=0
 tile23.bounds=0
 tile19.bounds=0
@@ -13,19 +23,32 @@ tile21.bounds=0
 tile17.bounds=0
 tile12.bounds=1
 tile10.bounds=0
+<<<<<<< HEAD
 tile15.bounds=0/24/48/24
 tile8.bounds=0
 tile6.bounds=0/0/48/24
 tile1.bounds=0
 tile9.bounds=0/24/48/24
+=======
+tile15.bounds=0#24#48#24
+tile8.bounds=0
+tile6.bounds=0#0#48#24
+tile1.bounds=0
+tile9.bounds=0#24#48#24
+>>>>>>> origin/master
 tile4.bounds=1
 tile24.bounds=0
 tile22.bounds=0
 tile18.bounds=0
 tile13.bounds=1
 tile16.bounds=1
+<<<<<<< HEAD
 tile11.bounds=0/0/48/24
 tile7.bounds=0/0/48/24
+=======
+tile11.bounds=0#0#48#24
+tile7.bounds=0#0#48#24
+>>>>>>> origin/master
 tile2.bounds=0
 tile5.bounds=1
 tile0.bounds=1

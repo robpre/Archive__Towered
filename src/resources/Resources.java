@@ -18,7 +18,11 @@ public class Resources {
 	private Streams stream;
 	private HashMap<String, Properties> properties;
 	private Data d;
+<<<<<<< HEAD
 	private HashMap<String, Static> staticImages;
+=======
+	private HashMap<String, BufferedImage> staticImages;
+>>>>>>> origin/master
 	private HashMap<String, Map> maps;
 	private HashMap<String, Character> chars;
 	private String settingsLoc;
@@ -35,14 +39,22 @@ public class Resources {
 	
 	public BufferedImage getStaticImage(String s){
 		if(!staticImages.get(s).equals(null))
+<<<<<<< HEAD
 			return staticImages.get(s).src;
+=======
+			return staticImages.get(s);
+>>>>>>> origin/master
 		else 
 			return null;
 	}
 	
 	private void init(Settings s){
 		properties = new HashMap<String, Properties>();
+<<<<<<< HEAD
 		staticImages = new HashMap<String, Static>();
+=======
+		staticImages = new HashMap<String, BufferedImage>();
+>>>>>>> origin/master
 		maps = new HashMap<String, Map>();
 		chars = new HashMap<String, Character>();
 		SETTINGS = s;		
@@ -61,8 +73,14 @@ public class Resources {
 		
 		d = new Data(properties.get("resData"));
 		for(DataO dO: d.misc){
+<<<<<<< HEAD
 			
 		}		
+=======
+			staticImages.put(dO.name, getIntImage(String.format("misc/%s", dO.resourceLocation)));
+		}
+		
+>>>>>>> origin/master
 
 		SETTINGS = getSettings();
 		System.out.println(SETTINGS.print());
@@ -87,13 +105,17 @@ public class Resources {
 	private void storeSettings(){
 		try {
 			FileOutputStream fos = new FileOutputStream(settingsLoc);
+<<<<<<< HEAD
 			new File(formatSave(settingsLoc)).mkdirs();
+=======
+>>>>>>> origin/master
 			SETTINGS.getProps().store(fos, null);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	
+<<<<<<< HEAD
 	private String formatSave(String s){
 		int loc;
 		loc = s.lastIndexOf('\\');
@@ -105,6 +127,8 @@ public class Resources {
 		return s.substring(0,loc);
 	}
 	
+=======
+>>>>>>> origin/master
 	private Settings getSettings(){
 		System.out.println(SETTINGS.print());
 		return new Settings( // Settings(String gn, String q, int w, int h, int j, int l, int r, int a)
