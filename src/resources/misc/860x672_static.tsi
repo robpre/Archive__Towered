@@ -1,0 +1,11 @@
+#C friday #
+system.type=static
+system.count=2
+system.source=860x672_static.png
+system.width=180
+system.height=672
+system.regex=/
+static0.name=startbutton
+static0.bounds=0/0/180/64
+static1.name=exitbutton
+static0.bounds=0/64/180/64
