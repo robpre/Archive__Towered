@@ -1,8 +1,8 @@
 #Wed Aug 17 10:06:57 BST 2011
 system.type=map
 system.source=tile0.png
-system.width=3072
 system.count=418
+system.width=3072
 system.height=672
 tile400.num=13
 tile368.num=5
@@ -203,7 +203,6 @@ tile88.num=6
 tile361.num=12
 tile353.num=9
 tile130.num=4
-tile.width=48
 tile345.num=9
 tile122.num=4
 tile337.num=9
@@ -374,7 +373,6 @@ tile12.num=3
 tile90.num=6
 tile233.num=5
 tile82.num=6
-tile.height=48
 tile225.num=3
 tile74.num=6
 tile217.num=5
