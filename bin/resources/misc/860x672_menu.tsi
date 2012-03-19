@@ -1,1 +1,5 @@
-menu.res=menu.jpg
+system.type=static
+system.count=418
+system.source=tile0.png
+system.width=3072
+system.height=672

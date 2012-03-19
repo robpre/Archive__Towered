@@ -9,6 +9,6 @@ public class Static {
 	
 	public Static(TSI tsi, String desc){
 		this.desc = desc;
-		
+		this.tsi = tsi;
 	}
 }

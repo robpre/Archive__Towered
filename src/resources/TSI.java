@@ -15,8 +15,8 @@ public class TSI {
 	private HashMap<String, Integer> cha; // for characters i will store the number of each tile that corresponds to an animation
 	
 	public TSI(Properties p){
-		res = p.getProperty("system.source");
 		type = p.getProperty("system.type");
+		res = type + "/" + p.getProperty("system.source");
 		count = Integer.parseInt(p.getProperty("system.count"));
 		w = Integer.parseInt(p.getProperty("system.width"));
 		h = Integer.parseInt(p.getProperty("system.height"));

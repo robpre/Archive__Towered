@@ -18,7 +18,7 @@ public class Resources {
 	private Streams stream;
 	private HashMap<String, Properties> properties;
 	private Data d;
-	private HashMap<String, BufferedImage> staticImages;
+	private HashMap<String, Static> staticImages;
 	private HashMap<String, Map> maps;
 	private HashMap<String, Character> chars;
 	private String settingsLoc;
@@ -35,14 +35,14 @@ public class Resources {
 	
 	public BufferedImage getStaticImage(String s){
 		if(!staticImages.get(s).equals(null))
-			return staticImages.get(s);
+			return staticImages.get(s).src;
 		else 
 			return null;
 	}
 	
 	private void init(Settings s){
 		properties = new HashMap<String, Properties>();
-		staticImages = new HashMap<String, BufferedImage>();
+		staticImages = new HashMap<String, Static>();
 		maps = new HashMap<String, Map>();
 		chars = new HashMap<String, Character>();
 		SETTINGS = s;		
@@ -61,9 +61,8 @@ public class Resources {
 		
 		d = new Data(properties.get("resData"));
 		for(DataO dO: d.misc){
-			staticImages.put(dO.name, getIntImage(String.format("misc/%s", dO.resourceLocation)));
-		}
-		
+			
+		}		
 
 		SETTINGS = getSettings();
 		System.out.println(SETTINGS.print());
@@ -88,10 +87,22 @@ public class Resources {
 	private void storeSettings(){
 		try {
 			FileOutputStream fos = new FileOutputStream(settingsLoc);
+			new File(formatSave(settingsLoc)).mkdirs();
 			SETTINGS.getProps().store(fos, null);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	private String formatSave(String s){
+		int loc;
+		loc = s.lastIndexOf('\\');
+		System.out.println(loc);
+		if(loc==-1)
+			loc = s.lastIndexOf('/');
+		System.out.println(loc);
+		System.out.println(s.substring(0, loc));
+		return s.substring(0,loc);
 	}
 	
 	private Settings getSettings(){

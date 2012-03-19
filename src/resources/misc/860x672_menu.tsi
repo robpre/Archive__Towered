@@ -1,5 +1,8 @@
-system.type=static
-system.count=418
-system.source=tile0.png
-system.width=3072
+system.type=misc
+system.count=1
+system.source=860x672_menu.png
+system.width=860
 system.height=672
+system.regex=/
+misc0.name=main
+misc0.bounds=0/0/860/672
