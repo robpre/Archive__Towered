@@ -9,10 +9,6 @@ public class Static {
 	
 	public Static(TSI tsi, String desc){
 		this.desc = desc;
-<<<<<<< HEAD
 		this.tsi = tsi;
-=======
-		
->>>>>>> origin/master
 	}
 }

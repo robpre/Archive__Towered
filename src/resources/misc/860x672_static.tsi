@@ -1,22 +1,11 @@
 #C friday #
-<<<<<<< HEAD
 system.type=misc
-=======
-system.type=static
->>>>>>> origin/master
 system.count=2
 system.source=860x672_static.png
 system.width=180
 system.height=672
 system.regex=/
-<<<<<<< HEAD
 misc0.name=startbutton
 misc0.bounds=0/0/180/64
 misc1.name=exitbutton
 misc0.bounds=0/64/180/64
-=======
-static0.name=startbutton
-static0.bounds=0/0/180/64
-static1.name=exitbutton
-static0.bounds=0/64/180/64
->>>>>>> origin/master
