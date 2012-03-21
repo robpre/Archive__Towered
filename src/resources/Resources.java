@@ -34,10 +34,12 @@ public class Resources {
 	}
 	
 	public BufferedImage getStaticImage(String s){
-		if(!staticImages.get(s).equals(null))
+		if(staticImages.containsKey(s))
 			return staticImages.get(s).src;
-		else 
+		else{
+			System.out.println("Cannot find image:" + s);
 			return null;
+		}
 	}
 	
 	private void init(Settings s){
