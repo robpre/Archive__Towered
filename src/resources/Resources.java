@@ -33,15 +33,6 @@ public class Resources {
 		init(s);
 	}
 	
-	public BufferedImage getStaticImage(String s){
-		if(staticImages.containsKey(s))
-			return staticImages.get(s).src;
-		else{
-			System.out.println("Cannot find image:" + s);
-			return null;
-		}
-	}
-	
 	private void init(Settings s){
 		properties = new HashMap<String, Properties>();
 		staticImages = new HashMap<String, Static>();

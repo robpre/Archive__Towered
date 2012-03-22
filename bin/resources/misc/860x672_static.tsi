@@ -8,4 +8,4 @@ system.regex=/
 misc0.name=startbutton
 misc0.bounds=0/0/180/64
 misc1.name=exitbutton
-misc0.bounds=0/64/180/64
+misc1.bounds=0/64/180/64

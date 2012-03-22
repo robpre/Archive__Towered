@@ -25,7 +25,6 @@ public class Towered extends C{
 
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(resources.getStaticImage("Main"),0 ,0 , null);
 		g.setColor(new Color(255, 0, 0));
 		g.fillRect(0, 0, 250, 672);
 		drawDebugText(g);
