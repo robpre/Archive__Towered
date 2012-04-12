@@ -42,7 +42,7 @@ public class Resources {
 		stream = new Streams();				
 		
 		properties.put("resData", getIntP("res.data"));
-		if(new File(settingsLoc).exists()){
+		if(checkSettings(settingsLoc)){
 			properties.put("settings", getExtP(settingsLoc));
 		}else{
 			settingsLoc = System.getenv("appdata") + "\\" + s.GAMENAME + "\\game.settings";
