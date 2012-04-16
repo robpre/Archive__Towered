@@ -59,8 +59,6 @@ public class Resources {
 			TSI tsi = new TSI(getIntP("misc/" + SETTINGS.QUALITY + "_" + dO.resourceLocation));
 			BufferedImage img = getIntImage(tsi.res);
 			staticImages.put(dO.name, new Static(img, tsi));
-			//staticImages.get(dO.name).changeScene("");
-			System.out.println(staticImages.get(dO.name).scene);
 		}
 		for(DataO dO: d.characters){
 			 

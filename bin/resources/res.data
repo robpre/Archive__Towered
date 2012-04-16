@@ -1,6 +1,6 @@
 char.count=1
 char0.name=Blaire #rethink name? :P placeholder
-char0.res=blaire_tileset.tsi
+char0.res=blaire.tsi
 char0.description=This is a test character description
 maps.count=1
 level0.name=TestLevel

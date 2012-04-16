@@ -47,6 +47,4 @@ public class Static extends Entity{
 		st.setY(y);
 		return st;
 	}
-
-
 }

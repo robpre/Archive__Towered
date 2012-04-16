@@ -33,10 +33,6 @@ public class TSI {
 			break;
 		}
 	}
-	
-	public void pl(String s){
-		System.out.println(s);
-	}
 
 	private void character(Properties p) {
 		tiles = new HashMap<String, Rectangle>();
@@ -72,7 +68,6 @@ public class TSI {
 		for(int i=0;i<count;i++){
 			tiles.put(p.getProperty(type + i + ".name"), conv(p.getProperty(type + i + ".bounds")));
 		}
-		System.out.println(tiles.toString());
 	}
 	
 	private Rectangle conv(String s){
