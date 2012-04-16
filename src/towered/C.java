@@ -38,13 +38,15 @@ public abstract class C {
 
 	//set screen size and launch
 	public void init(){
-		if(debug){
+		if(debug && sStore.equals("default")){
+			resources = new Resources(gameSettings);
+			debugText = new ArrayList<String>();
+		}else if(debug){
 			resources = new Resources(gameSettings, sStore);
 			debugText = new ArrayList<String>();
-		}
-		else{
+		} else {
 			resources = new Resources(gameSettings);
-		}			
+		}
 		gameSettings = resources.SETTINGS.clone();
 		s = new ScreenManager(gameSettings);
 		s.launch();
@@ -63,7 +65,7 @@ public abstract class C {
 				if(s.substring(1).toLowerCase().equals("settings"))
 					sStore = t;
 				else
-					sStore= null;
+					sStore="default";
 			}
 		}
 	}
@@ -75,8 +77,7 @@ public abstract class C {
 		while(running){
 			long timePassed = System.currentTimeMillis() - totTime;
 			totTime+=timePassed;
-			
-			physics(timePassed);
+
 			update(timePassed);
 			
 			Graphics2D g = s.getGraphics();
@@ -104,14 +105,9 @@ public abstract class C {
 			debugText.trimToSize();
 		}
 	}
-	
-	//update physics
-	public void physics(long timePassed){}
 
 	//update animation
-	public void update(long timePassed){
-		
-	}
+	public abstract void update(long timePassed);
 	
 	//draws to screen
 	public abstract void draw(Graphics2D g);

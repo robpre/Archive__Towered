@@ -8,11 +8,11 @@ public class TSI {
 	public String 	type,
 					res,
 					regex;
-	public int w,
+	public int 	w,
 				h,
 				count;
-	private HashMap<String, Rectangle> tiles; //Contains each tile: name, bounds info
-	private HashMap<String, Integer> cha; // for characters i will store the number of each tile that corresponds to an animation
+	public HashMap<String, Rectangle> tiles; //Contains each tile: name, bounds info
+	public HashMap<String, Integer> cha; // for characters i will store the number of each tile that corresponds to an animation
 	
 	public TSI(Properties p){
 		type = p.getProperty("system.type");
@@ -22,7 +22,7 @@ public class TSI {
 		h = Integer.parseInt(p.getProperty("system.height"));
 		regex = p.getProperty("system.regex");
 		switch(res.charAt(0)){
-		case 's':
+		case 'm':
 			misc(p);
 			break;
 		case 't':
@@ -32,6 +32,10 @@ public class TSI {
 			character(p);
 			break;
 		}
+	}
+	
+	public void pl(String s){
+		System.out.println(s);
 	}
 
 	private void character(Properties p) {
@@ -68,6 +72,7 @@ public class TSI {
 		for(int i=0;i<count;i++){
 			tiles.put(p.getProperty(type + i + ".name"), conv(p.getProperty(type + i + ".bounds")));
 		}
+		System.out.println(tiles.toString());
 	}
 	
 	private Rectangle conv(String s){

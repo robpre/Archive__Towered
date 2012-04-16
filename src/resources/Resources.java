@@ -18,10 +18,11 @@ public class Resources {
 	private Streams stream;
 	private HashMap<String, Properties> properties;
 	private Data d;
-	private HashMap<String, Static> staticImages;
-	private HashMap<String, Map> maps;
-	private HashMap<String, Character> chars;
 	private String settingsLoc;
+	public HashMap<String, Static> staticImages;
+	public HashMap<String, Map> maps;
+	public HashMap<String, Character> chars;
+	
 	
 	public Resources(Settings s){
 		settingsLoc = System.getenv("appdata") + "\\" + s.GAMENAME + "\\game.settings";
@@ -42,27 +43,46 @@ public class Resources {
 		stream = new Streams();				
 		
 		properties.put("resData", getIntP("res.data"));
-		if(checkSettings(settingsLoc)){
+		if(checkFile(settingsLoc)){
 			properties.put("settings", getExtP(settingsLoc));
 		}else{
 			settingsLoc = System.getenv("appdata") + "\\" + s.GAMENAME + "\\game.settings";
 			createSettings();
 			storeSettings();
 			properties.put("settings", getExtP(settingsLoc));
+			System.out.println("Could not find settings, creating blank default and saving at:\n" + settingsLoc);
 		}
-		
+		SETTINGS = getSettings();
 		
 		d = new Data(properties.get("resData"));
-		for(DataO dO: d.misc){			
+		for(DataO dO: d.misc){
+			TSI tsi = new TSI(getIntP("misc/" + SETTINGS.QUALITY + "_" + dO.resourceLocation));
+			BufferedImage img = getIntImage(tsi.res);
+			staticImages.put(dO.name, new Static(img, tsi));
+			//staticImages.get(dO.name).changeScene("");
+			System.out.println(staticImages.get(dO.name).scene);
 		}
-
-		SETTINGS = getSettings();
-		System.out.println(SETTINGS.print());
+		for(DataO dO: d.characters){
+			 
+		}
+		for(DataO dO: d.maps){
+			 
+		}
 		//stream interaction
 		//gather resources
 		//Initialise cache
 	}
 	
+	private boolean checkFile(String settingsLoc) {
+		try{
+			new File(settingsLoc);
+			return true;
+		} catch (NullPointerException e){
+			//e.printStackTrace();
+		}
+		return false;
+	}
+
 	private void createSettings(){
 		SETTINGS = new Settings( // Settings(String gn, String q, int w, int h, int j, int l, int r, int a)
 				SETTINGS.GAMENAME,
@@ -89,15 +109,12 @@ public class Resources {
 	private String formatSave(String s){
 		int loc;
 		loc = s.lastIndexOf('\\');
-		System.out.println(loc);
 		if(loc==-1)
 			loc = s.lastIndexOf('/');
-		System.out.println(loc);
-		System.out.println(s.substring(0, loc));
 		return s.substring(0,loc);
 	}
+	
 	private Settings getSettings(){
-		System.out.println(SETTINGS.print());
 		return new Settings( // Settings(String gn, String q, int w, int h, int j, int l, int r, int a)
 					SETTINGS.GAMENAME,
 					properties.get("settings").getProperty("res.quality"),
@@ -138,7 +155,6 @@ public class Resources {
 	
 	private Properties getExtP(String s){
 		Properties pBin = new Properties();
-		System.out.println(s);
 		try {
 			pBin.load(stream.extResource(s));
 		} catch (IOException e) {
