@@ -56,7 +56,11 @@ public class Resources {
 		
 		d = new Data(properties.get("resData"));
 		for(DataO dO: d.misc){
-			TSI tsi = new TSI(getIntP("misc/" + SETTINGS.QUALITY + "_" + dO.resourceLocation));
+			TSI tsi;
+			if((dO.name.equals(null) || dO.name.equals("null")) || (dO.description.equals(null) || dO.description.equals("null")))
+				tsi = new TSI(getIntP("misc/" + SETTINGS.QUALITY + "_" + dO.resourceLocation));
+			else
+				tsi = new TSI(getIntP("misc/" + SETTINGS.QUALITY + "_" + dO.resourceLocation), dO.name, dO.description);
 			BufferedImage img = getIntImage(tsi.res);
 			staticImages.put(dO.name, new Static(img, tsi));
 		}
@@ -73,12 +77,13 @@ public class Resources {
 	
 	private boolean checkFile(String settingsLoc) {
 		try{
-			new File(settingsLoc);
-			return true;
+			if(new File(settingsLoc).exists())
+				return true;
+			else return false;
 		} catch (NullPointerException e){
 			//e.printStackTrace();
-		}
-		return false;
+			return false;
+		}		
 	}
 
 	private void createSettings(){
@@ -96,8 +101,8 @@ public class Resources {
 	
 	private void storeSettings(){
 		try {
-			FileOutputStream fos = new FileOutputStream(settingsLoc);
 			new File(formatSave(settingsLoc)).mkdirs();
+			FileOutputStream fos = new FileOutputStream(settingsLoc);			
 			SETTINGS.getProps().store(fos, null);
 		}catch(Exception e){
 			e.printStackTrace();

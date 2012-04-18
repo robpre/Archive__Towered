@@ -7,8 +7,10 @@ public abstract class Entity {
 	public int x,y;
 	public double dx, dy;	
 	public BufferedImage img;
+	public boolean clickable;
 	
 	public void init(BufferedImage img){
+		clickable=false;
 		this.img = img;
 	}
 	

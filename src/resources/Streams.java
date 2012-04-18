@@ -10,7 +10,7 @@ public class Streams {
 		try{
 			out = new FileInputStream(item);
 		} catch(FileNotFoundException e){
-			System.out.println("Could not find: \n" + item + "\"\nReturning null.");
+			System.out.println("Could not find: \n" + item + "\nReturning null.");
 			out = null;
 		} catch(Exception e){
 			System.out.println("Error found: " + e.toString());

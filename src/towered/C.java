@@ -2,21 +2,25 @@ package towered;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import resources.Entity;
 import resources.Resources;
 import window.ScreenManager;
 
 public abstract class C {
 	
 	public Settings gameSettings;
-	private ArrayList<String> debugText;
-	public Resources resources;
-	private boolean running;
-	private static boolean debug;
-	protected ScreenManager s;
-	private static String sStore;
+	public Resources resources;	
+	public ScreenManager s;	
 	
+	private ArrayList<String> debugText;
+	private static String sStore;
+	private boolean running;
+	private static boolean debug;	
+	private ArrayList<Entity> getAE;	
 	
 	public void stop(){
 		running = false;
@@ -32,9 +36,10 @@ public abstract class C {
 		}
 	}
 	
-	private void close() {
-		//System.exit(0);
+	protected void close() {
+		System.exit(0);
 	}
+
 
 	//set screen size and launch
 	public void init(){
@@ -52,6 +57,19 @@ public abstract class C {
 		s.launch();
 		s.debug(); 
 		running = true;
+		getAE = new ArrayList<Entity>();
+	}
+	
+	public void addKeyListener(KeyListener kl){
+		s.gameWindow.addKeyListener(kl);
+	}
+	
+	public void addKeyListener(MouseListener ml){
+		s.gameWindow.addMouseListener(ml);
+	}
+	
+	public ArrayList<Entity> getAE(){
+		return getAE;
 	}
 	
 	public static void parseCmdLine(String[] args){

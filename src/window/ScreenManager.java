@@ -91,7 +91,7 @@ public class ScreenManager implements ComponentListener{
 			return new Point(getLocation().x+getInsets().left,getLocation().y+getInsets().top);
 		}
 	}
-	private class GameWindow extends Window{
+	public class GameWindow extends Window{
 		/**
 		 * 
 		 */

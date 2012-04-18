@@ -5,16 +5,41 @@ import java.util.HashMap;
 import java.util.Properties;
 
 public class TSI {
-	public String 	type,
+	public String 	name,
+					description,
+					type,
 					res,
 					regex;
 	public int 	w,
 				h,
 				count;
+	public boolean left;
 	public HashMap<String, Rectangle> tiles; //Contains each tile: name, bounds info
-	public HashMap<String, Integer> cha; // for characters i will store the number of each tile that corresponds to an animation
 	
 	public TSI(Properties p){
+		name = "NameNotFound";
+		description = "DescriptionNotFound";
+		type = p.getProperty("system.type");
+		res = type + "/" + p.getProperty("system.source");
+		count = Integer.parseInt(p.getProperty("system.count"));
+		w = Integer.parseInt(p.getProperty("system.width"));
+		h = Integer.parseInt(p.getProperty("system.height"));
+		regex = p.getProperty("system.regex");
+		switch(res.charAt(0)){
+		case 'm':
+			misc(p);
+			break;
+		case 't':
+			tile(p);
+			break;
+		case 'c':
+			character(p);
+			break;
+		}
+	}
+	public TSI(Properties p, String name, String des){
+		this.name = name;
+		this.description = des;
 		type = p.getProperty("system.type");
 		res = type + "/" + p.getProperty("system.source");
 		count = Integer.parseInt(p.getProperty("system.count"));
@@ -35,17 +60,21 @@ public class TSI {
 	}
 
 	private void character(Properties p) {
+		switch(p.getProperty("system.orientation").charAt(0)){
+		case 'r':
+			left=false;
+			break;
+		case 'l':
+			left=true;
+			break;
+		default:
+			System.out.println("Warning: Importeding character:" + name + "\n\tCharacter has no default orientation.");
+		}
 		tiles = new HashMap<String, Rectangle>();
-		cha = new HashMap<String, Integer>();
-		for(int i=0, j=0;i<count;i++){
+		for(int i=0;i<count;i++){
 			String name = p.getProperty(type + i + ".name");
 			Rectangle bounds = conv(p.getProperty(type + i + ".bounds"));
-			if(cha.containsKey(name))
-				j++;
-			else
-				j=0;			
-			cha.put(name, j);		
-			tiles.put(name + j, bounds);
+			tiles.put(name, bounds);
 		}
 	}
 

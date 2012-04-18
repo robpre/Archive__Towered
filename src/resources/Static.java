@@ -7,7 +7,8 @@ import java.util.HashMap;
 
 public class Static extends Entity{
 	
-	public Rectangle scene;
+	public Rectangle scene,click;
+	public String sceneName;
 	private HashMap<String, Rectangle> scenes;
 	
 	public Static(BufferedImage img, TSI tsi){
@@ -24,12 +25,21 @@ public class Static extends Entity{
 		scenes = list;
 	}
 	
+	public void clickable(boolean b){
+		clickable=b;
+		if(clickable)
+			click = new Rectangle(x, y, scene.width, scene.height);
+		else
+			click = null;
+	}
+	
 	public BufferedImage getImage(){
 		return img.getSubimage(scene.x, scene.y, scene.width, scene.height);
 	}
 	
 	public void changeScene(String s){
 		scene = scenes.get(s);
+		sceneName = s;
 	}
 	
 	@Override
@@ -38,13 +48,18 @@ public class Static extends Entity{
 	}
 	
 	@Override
-	public void update(long timePassed) {}
+	public void update(long timePassed) {
+		if(clickable && click.equals(null)){
+			click = new Rectangle(x, y, scene.width, scene.height);
+		}
+	}
 
 	@Override
 	public Object clone() {
 		Static st = new Static(img, scenes);
 		st.setX(x);
 		st.setY(y);
+		st.clickable(clickable);
 		return st;
 	}
 }

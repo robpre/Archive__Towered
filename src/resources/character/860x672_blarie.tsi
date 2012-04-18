@@ -5,6 +5,7 @@ system.source=860x672_blarie.png
 system.width=128
 system.height=128
 system.regex=/
+system.orientation=r
 char0.name=idle
 char0.bounds=48/21/30/48
 char1.name=idle
