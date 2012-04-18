@@ -28,10 +28,10 @@ public class Towered extends C{
 	}
 	
 	public void click(String s){
+		System.out.println("Clicked:" + s);
 		if(s.equals("exitbutton")){
 			close();
-		}
-			
+		}			
 	}
 	
 	public void openMenu(){
@@ -42,7 +42,6 @@ public class Towered extends C{
 		Static m = (Static)getAE().get(0);
 		m.changeScene("main");
 		m.setPos(0, 0);
-		m.clickable(true);
 		m = (Static)getAE().get(1);
 		m.changeScene("startbutton");
 		m.setPos(340, 200);
