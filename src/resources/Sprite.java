@@ -1,22 +1,34 @@
 package resources;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 
 public class Sprite extends Entity{
 	
-	private boolean left;
-	private Animation[] a;
+	public Rectangle cClip;
+	
+	private boolean dOLeft,cOLeft;
+	private Animation currentAnim;
+	private HashMap<String, Animation> anims;
+	
 	
 	public Sprite(BufferedImage img, TSI tsi){
 		super.init(img);
+		dOLeft = tsi.left;
 	}
 	
+	
+	
+	public void changeAnimation(String s){
+		currentAnim = anims.get(s);
+		currentAnim.start();
+	}	
 
 	@Override
 	public void update(long timePassed) {
-		// TODO Auto-generated method stub
-		
+		currentAnim.update(timePassed);
 	}
 
 	@Override

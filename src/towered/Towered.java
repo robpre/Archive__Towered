@@ -34,11 +34,16 @@ public class Towered extends C{
 		}			
 	}
 	
+	/*
+	 * here is proof of concept of my importing method.
+	 * each of the 
+	 * 
+	 */
 	public void openMenu(){
 		getAE().clear();
-		getAE().add((Static)resources.staticImages.get("Main").clone());
-		getAE().add((Static)resources.staticImages.get("Static").clone());
-		getAE().add((Static)resources.staticImages.get("Static").clone());
+		getAE().add((Entity)resources.staticImages.get("Main").clone());
+		getAE().add((Entity)resources.staticImages.get("Static").clone());
+		getAE().add((Entity)resources.staticImages.get("Static").clone());
 		Static m = (Static)getAE().get(0);
 		m.changeScene("main");
 		m.setPos(0, 0);
