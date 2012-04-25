@@ -45,10 +45,11 @@ public class Towered extends C{
 	public void pressed(char c){
 		switch(c){
 		case 'w':
-			
+			getCharacter().setPos(250, 250);
+			getCharacter().test();
 			break;
 		case 'd':
-			
+			emptyEntities();
 			break;
 		}
 	}
