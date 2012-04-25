@@ -1,6 +1,6 @@
 #Wed Aug 17 10:06:57 BST 2011
 system.type=map
-system.source=tile0.png
+system.source=tile0
 system.count=418
 system.width=3072
 system.height=672

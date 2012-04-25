@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import resources.Entity;
 import resources.Resources;
+import resources.Character;
+import resources.Static;
 import window.ScreenManager;
 
 public abstract class C {
@@ -20,7 +22,8 @@ public abstract class C {
 	private static String sStore;
 	private boolean running;
 	private static boolean debug;	
-	private ArrayList<Entity> getAE;	
+	private ArrayList<Entity> activeEntities;	
+	private ArrayList<QueItem> que;
 	
 	public void stop(){
 		running = false;
@@ -37,12 +40,12 @@ public abstract class C {
 	}
 	
 	protected void close() {
-		System.exit(0);
+		//System.exit(0);
 	}
 
 
 	//set screen size and launch
-	public void init(){
+	public void init(){ // I love faye williams
 		if(debug && sStore.equals("default")){
 			resources = new Resources(gameSettings);
 			debugText = new ArrayList<String>();
@@ -57,7 +60,17 @@ public abstract class C {
 		s.launch();
 		s.debug(); 
 		running = true;
-		getAE = new ArrayList<Entity>();
+		activeEntities = new ArrayList<Entity>();
+		que = new ArrayList<QueItem>();
+		addDebugText("a");
+		addDebugText("a");
+		addDebugText("a");
+		addDebugText("a");
+		addDebugText("a");
+		addDebugText("a");
+		addDebugText("a");
+		addDebugText("a");
+		addDebugText("a");
 	}
 	
 	public void addKeyListener(KeyListener kl){
@@ -69,8 +82,42 @@ public abstract class C {
 	}
 	
 	public ArrayList<Entity> getAE(){
-		return getAE;
+		return activeEntities;
 	}
+	
+	public void emptyEntities(){
+		for(Entity e:getAE()){
+			que.add(new QueItem(false, e));
+		}
+	}
+	public synchronized void removeEntity(String... s){
+		for(String s1:s){
+			for(Entity e:getAE()){
+				if(e.sceneName.equals(s1))
+					que.add(new QueItem(false,e));
+			}
+		}
+	}
+	public void addEntity(Entity e){
+		que.add(new QueItem(true, e));
+	}
+	public Character getCharacter(){
+		Character c = null;
+		for(int i =0;i<getAE().size();i++){
+			if(getAE().get(i).type.contains("c"))
+				c = (Character)getAE().get(i);
+		}
+		return c;
+	}
+	public Static getStatic(String s){
+		for(Entity e:getAE()){
+			if(e.sceneName.equals(s))
+				return (Static)e;
+		}
+		return null;
+	}
+	
+
 	
 	public static void parseCmdLine(String[] args){
 		for(int i=0, j=1;i<args.length && j<args.length;i++, j++){
@@ -95,7 +142,12 @@ public abstract class C {
 		while(running){
 			long timePassed = System.currentTimeMillis() - totTime;
 			totTime+=timePassed;
-
+			
+			upKeep();
+			
+			setDebugText(0,"TimePassed :\t" + timePassed);
+			setDebugText(1,"Active Entities size: :" + getAE().size());
+			
 			update(timePassed);
 			
 			Graphics2D g = s.getGraphics();
@@ -104,18 +156,37 @@ public abstract class C {
 			s.update();
 			
 			try{
-				Thread.sleep(20-timePassed);
+				Thread.sleep(25-timePassed);
 			}catch(Exception ex){}			
 		}
+	}
+	private synchronized void upKeep(){
+		if(que.size()==0)
+			return;
+		for(int i=0;i<que.size();i++){
+			QueItem qi = que.get(i);
+			if(qi.mode){
+				getAE().add(qi.e);
+			} else {
+				getAE().remove(qi.e);
+			}		
+		}
+		que.clear();
+		getAE().trimToSize();		
 	}
 	
 	public void drawDebugText(Graphics2D g){
 		g.setColor(Color.white);
 		for(int i=0;i<debugText.size();i++){
-			g.drawString(i + ": " + debugText.get(i), 50, i*25);
+			g.drawString(i + ": " + debugText.get(i), 50, i*25 + 30);
 		}
-	}
+	}		
 	
+	public void setDebugText(int x, String s){
+		if(x>debugText.size())
+			return;
+		debugText.set(x, s);
+	}
 	public void addDebugText(String s){
 		debugText.add(s);
 		if(debugText.size()>10){
@@ -129,5 +200,14 @@ public abstract class C {
 	
 	//draws to screen
 	public abstract void draw(Graphics2D g);
+	
+	private class QueItem{
+		public boolean mode;
+		public Entity e;
+		public QueItem(boolean mode, Entity e){
+			this.mode = mode;
+			this.e = e;
+		}
+	}
 
 }

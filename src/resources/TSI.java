@@ -68,13 +68,13 @@ public class TSI {
 			left=true;
 			break;
 		default:
-			System.out.println("Warning: Importeding character:" + name + "\n\tCharacter has no default orientation.");
+			System.out.println("Warning: Imported character:" + name + "\n\tCharacter has no default orientation.");
 		}
 		tiles = new HashMap<String, Rectangle>();
 		for(int i=0;i<count;i++){
 			String name = p.getProperty(type + i + ".name");
 			Rectangle bounds = conv(p.getProperty(type + i + ".bounds"));
-			tiles.put(name, bounds);
+			tiles.put(i + "_" + name, bounds);
 		}
 	}
 

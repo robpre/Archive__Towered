@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 public class Streams {
 	public InputStream extResource(String item){
+		System.out.println("*Gathering EXTERNAL item: " + item);
 		InputStream out;
 		try{
 			out = new FileInputStream(item);
@@ -19,6 +20,7 @@ public class Streams {
 		return out;
 	}
     public InputStream intResource(String item){
+    	System.out.println("*Gathering INTERNAL item: " + ClassLoader.getSystemResource("resources/" + item));
     	//System.out.println(ClassLoader.getSystemResource("resources/" + item));
     	return ClassLoader.getSystemResourceAsStream("resources/" + item);
     }

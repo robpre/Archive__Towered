@@ -1,5 +1,6 @@
 package towered;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -16,6 +17,7 @@ public class Towered extends C{
 	}
 
 	private Listener listener;
+	private Physics physics;
 	
 	@Override
 	public void init(){
@@ -25,13 +27,34 @@ public class Towered extends C{
 		listener = new Listener();
 		s.gameWindow.addKeyListener(listener);
 		s.gameWindow.addMouseListener(listener);
+		physics = new Physics(this);
 	}
 	
 	public void click(String s){
+		s = s.toLowerCase();
 		System.out.println("Clicked:" + s);
 		if(s.equals("exitbutton")){
 			close();
-		}			
+		} else if(s.equals("startbutton")){
+			closeMenu();
+			System.out.println(resources.chars.toString());
+			addEntity(((Entity)resources.chars.get("Blarie").clone()));
+		}
+	}
+	
+	public void pressed(char c){
+		switch(c){
+		case 'w':
+			
+			break;
+		case 'd':
+			
+			break;
+		}
+	}
+	
+	public void closeMenu(){
+		removeEntity("exitbutton", "startbutton", "main");
 	}
 	
 	/*
@@ -58,20 +81,22 @@ public class Towered extends C{
 	}
 	
 	@Override
-	public void update(long timePassed){
+	public synchronized void update(long timePassed){
+		physics.update(timePassed);
 		for(Entity aE:getAE()){
 			aE.update(timePassed);
 		}
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
+	public synchronized void draw(Graphics2D g) {
+		g.fillRect(0, 0, gameSettings.RESOLUTION.width, gameSettings.RESOLUTION.height);
 		for(Entity aE:getAE()){
 			aE.draw(g);
 		}
-		//g.setColor(new Color(255, 0, 0));
+		g.setColor(new Color(255, 0, 0));
 		//g.fillRect(0, 0, 250, 672);
-		//drawDebugText(g);
+		drawDebugText(g);
 	}
 	
 	/*
@@ -80,13 +105,15 @@ public class Towered extends C{
 	
 	private class Listener implements KeyListener,MouseListener{
 
+		public Listener(){
+		}
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			for(Entity ent:getAE()){
 				if(ent.clickable){
-					Static st = (Static)ent;
-					if(st.click.contains(e.getPoint())){
-						click(st.sceneName);
+					if(ent.click.contains(e.getPoint())){
+						click(ent.sceneName);
 					}
 				}
 			}
@@ -107,7 +134,6 @@ public class Towered extends C{
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -119,7 +145,6 @@ public class Towered extends C{
 		@Override
 		public void keyPressed(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -130,8 +155,7 @@ public class Towered extends C{
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
+			pressed(e.getKeyChar());
 		}
 		
 	}

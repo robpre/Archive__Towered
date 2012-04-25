@@ -1,13 +1,17 @@
 package resources;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public abstract class Entity {	
-	public int x,y;
-	public double dx, dy;	
+	public int x,y;	
 	public BufferedImage img;
 	public boolean clickable;
+	public Rectangle click;
+	public String sceneName;
+	public double speed;
+	public String type;
 	
 	public void init(BufferedImage img){
 		clickable=false;

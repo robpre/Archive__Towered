@@ -7,8 +7,7 @@ import java.util.HashMap;
 
 public class Static extends Entity{
 	
-	public Rectangle scene,click;
-	public String sceneName;
+	public Rectangle scene;
 	private HashMap<String, Rectangle> scenes;
 	
 	public Static(BufferedImage img, TSI tsi){
@@ -16,6 +15,7 @@ public class Static extends Entity{
 		scene = new Rectangle(0,0,0,0);
 		scenes = new HashMap<String, Rectangle>();
 		scenes = tsi.tiles;
+		type = "s";
 	}
 	
 	public Static(BufferedImage img, HashMap<String, Rectangle> list){
@@ -60,6 +60,7 @@ public class Static extends Entity{
 		st.setX(x);
 		st.setY(y);
 		st.clickable(clickable);
+		st.type = type;
 		return st;
 	}
 }

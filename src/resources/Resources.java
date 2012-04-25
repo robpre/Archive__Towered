@@ -22,6 +22,7 @@ public class Resources {
 	public HashMap<String, Static> staticImages;
 	public HashMap<String, Map> maps;
 	public HashMap<String, Character> chars;
+	public HashMap<String, TSI> tileSheets;
 	
 	
 	public Resources(Settings s){
@@ -39,6 +40,7 @@ public class Resources {
 		staticImages = new HashMap<String, Static>();
 		maps = new HashMap<String, Map>();
 		chars = new HashMap<String, Character>();
+		tileSheets = new HashMap<String, TSI>();
 		SETTINGS = s;		
 		stream = new Streams();				
 		
@@ -65,7 +67,20 @@ public class Resources {
 			staticImages.put(dO.name, new Static(img, tsi));
 		}
 		for(DataO dO: d.characters){
-			 
+			TSI tsi;
+			if((dO.name.equals(null) || dO.name.equals("null")) || (dO.description.equals(null) || dO.description.equals("null")))
+				tsi = new TSI(getIntP("character/" + SETTINGS.QUALITY + "_" + dO.resourceLocation));
+			else
+				tsi = new TSI(getIntP("character/" + SETTINGS.QUALITY + "_" + dO.resourceLocation), dO.name, dO.description);
+			BufferedImage img = getIntImage(tsi.res);
+			chars.put(dO.name, new Character(img, tsi));
+		}
+		for(DataO dO: d.tiles){
+			TSI tsi;
+			if((dO == null || dO.name.equals("null")) || (dO.description == null || dO.description.equals("null")))
+				tsi = new TSI(getIntP("tiles/" + SETTINGS.QUALITY + "_" + dO.resourceLocation));
+			else
+				tsi = new TSI(getIntP("tiles/" + SETTINGS.QUALITY + "_" + dO.resourceLocation), dO.name, dO.description);
 		}
 		for(DataO dO: d.maps){
 			 
@@ -177,15 +192,17 @@ public class Resources {
 	 * 		-name and locations of maps
 	 */
 	private class Data{
-		int characterCount,mapCount,miscCount;
-		DataO[] characters, maps, misc;
+		int characterCount,mapCount,miscCount,tileCount;
+		DataO[] characters, maps, misc,tiles;
 		public Data(Properties p){
 			mapCount = Integer.parseInt(p.getProperty("maps.count"));
 			characterCount = Integer.parseInt(p.getProperty("char.count"));
 			miscCount = Integer.parseInt(p.getProperty("misc.count"));
+			tileCount = Integer.parseInt(p.getProperty("tiles.count"));
 			maps = new DataO[mapCount];
 			characters = new DataO[characterCount];
 			misc = new DataO[miscCount];
+			tiles = new DataO[tileCount];
 			for(int i=0;i<mapCount;i++){
 				maps[i] = new DataO(
 					p.getProperty("level" + i + ".name"),
@@ -203,6 +220,12 @@ public class Resources {
 					p.getProperty("misc" + i + ".name"),
 					p.getProperty("misc" + i + ".res"),
 					p.getProperty("misc" + i + ".description"));
+			}
+			for(int i=0;i<tileCount;i++){
+				tiles[i] = new DataO(
+						p.getProperty("tile" + i + ".name"),
+						p.getProperty("tile" + i + ".res"),
+						p.getProperty("tile" + i + ".description"));
 			}
 		}
 	}

@@ -1,24 +1,29 @@
 package resources;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Properties;
 
 public class Map {
-	public String NAME, DESCRIPTION;
-	private Properties map;
-	private ArrayList<Rectangle> bounds;
-	private ArrayList<BufferedImage> tiles;
+	
+	public ArrayList<Rectangle> clipping;
+	private BufferedImage res;
+	private ArrayList<Point> resPoints;
+	
 	
 	public Map(Properties p){
-		map = (Properties)p.clone();
-		if (map.getProperty("map.opt").equals(null))
-			opt();
+		
+		res = img;
+		clipping = new ArrayList<Rectangle>();
+		resPoints = new ArrayList<Point>();
+		opt();
 	}
 
 	private void opt() {
-		
+		clipping = optimiseHorizon(clipping);
+		clipping = optimiseVertical(clipping);
 	}
 	
 	public ArrayList<Rectangle> optimiseHorizon(ArrayList<Rectangle> b){

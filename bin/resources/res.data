@@ -1,6 +1,6 @@
 char.count=1
-char0.name=Blaire #rethink name? :P placeholder
-char0.res=blaire.tsi
+char0.name=Blarie
+char0.res=blarie.tsi
 char0.description=This is a test character description
 maps.count=1
 level0.name=TestLevel
@@ -13,3 +13,7 @@ misc0.description=menu background
 misc1.name=Static
 misc1.res=static.tsi
 misc1.description=static images
+tiles.count=1
+tile0.name=tile0
+tile0.res=tile0.tsi
+tile0.description=tile sheet 0
