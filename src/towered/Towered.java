@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import resources.Entity;
+import resources.Map;
 import resources.Static;
 
 public class Towered extends C{
@@ -18,6 +19,7 @@ public class Towered extends C{
 
 	private Listener listener;
 	private Physics physics;
+	private Map activeMap;
 	
 	@Override
 	public void init(){
@@ -45,17 +47,18 @@ public class Towered extends C{
 	public void pressed(char c){
 		switch(c){
 		case 'w':
-			getCharacter().setPos(250, 250);
-			getCharacter().test();
+			getPlayer().test();
+			getPlayer().setPos(250, 350);
 			break;
 		case 'd':
-			emptyEntities();
+			
 			break;
 		}
 	}
 	
 	public void closeMenu(){
 		removeEntity("exitbutton", "startbutton", "main");
+		activeMap = resources.maps.get("TestLevel").clone();
 	}
 	
 	/*
@@ -91,12 +94,12 @@ public class Towered extends C{
 
 	@Override
 	public synchronized void draw(Graphics2D g) {
-		g.fillRect(0, 0, gameSettings.RESOLUTION.width, gameSettings.RESOLUTION.height);
+		if(activeMap!=null)
+			activeMap.draw(g);
 		for(Entity aE:getAE()){
 			aE.draw(g);
 		}
 		g.setColor(new Color(255, 0, 0));
-		//g.fillRect(0, 0, 250, 672);
 		drawDebugText(g);
 	}
 	

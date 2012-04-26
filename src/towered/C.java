@@ -101,7 +101,7 @@ public abstract class C {
 	public void addEntity(Entity e){
 		que.add(new QueItem(true, e));
 	}
-	public Character getCharacter(){
+	public Character getPlayer(){
 		Character c = null;
 		for(int i =0;i<getAE().size();i++){
 			if(getAE().get(i).type.contains("c"))
@@ -145,7 +145,7 @@ public abstract class C {
 			
 			upKeep();
 			
-			setDebugText(0,"TimePassed :\t" + timePassed);
+			setDebugText(0,"TimePassed :" + timePassed);
 			setDebugText(1,"Active Entities size: :" + getAE().size());
 			
 			update(timePassed);

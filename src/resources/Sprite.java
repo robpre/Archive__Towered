@@ -67,6 +67,10 @@ public class Sprite{
 		return new Rectangle(currentAnim.getPoint().x, currentAnim.getPoint().y, w, h);
 	}
 	
+	public Rectangle getClipping(){
+		return currentAnim.getClip();
+	}
+	
 	public void update(long timePassed){
 		currentAnim.update(timePassed);
 	}

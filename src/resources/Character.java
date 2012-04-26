@@ -1,6 +1,8 @@
 package resources;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 public class Character extends Entity{
@@ -19,6 +21,12 @@ public class Character extends Entity{
 	public void test(){
 		sprite.changeAnimation("idle");
 		sprite.isFacingLeft = !sprite.isFacingLeft;
+	}
+	
+	public Rectangle getClipping(){
+		Rectangle r = (Rectangle) sprite.getClipping().clone();
+		r.setLocation(r.x + x, r.y + y);
+		return r;
 	}
 	
 	@Override
@@ -46,6 +54,8 @@ public class Character extends Entity{
 		} else {
 			g.drawImage(draw, x, y, null);
 		}
+		g.setColor(new Color((float)0,(float)1,(float)0,(float)0.5));
+		g.fill(getClipping());
 	}
 
 

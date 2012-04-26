@@ -1,5 +1,7 @@
 package resources;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -9,11 +11,12 @@ import java.util.Properties;
 public class Map {
 	
 	public ArrayList<Rectangle> clipping;
-	private Point[][] tiles;
-	private BufferedImage res;
+	public String description;
+	private BufferedImage map;
+	public int x,y;
 	
-	public Map(Properties p, TSI tsi, BufferedImage res){
-		this.res=res;
+	public Map(Properties p, TSI tsi, BufferedImage res, String des){
+		description = des;
 		clipping = new ArrayList<Rectangle>();
 		int w = Integer.parseInt(p.getProperty("system.width"));
 		int h = Integer.parseInt(p.getProperty("system.height"));
@@ -27,37 +30,64 @@ public class Map {
 				srcPoints.add(new Point(r * tsi.h,c * tsi.w));
 			}
 		}
-		tiles = new Point[w][h];
+		map = new BufferedImage(tsi.w * w,tsi.h * h,BufferedImage.TYPE_INT_ARGB);
 		for(int r = 0, i=0;r < h;r++){
 			for(int c=0;c < w;c++){
 				int j = Integer.parseInt(p.getProperty("tile" + i + ".num"));
-				Rectangle rect = tsi.tiles.get(String.valueOf(j));
-//				System.out.println("Setting point  : " + c + "," + r);
-//				System.out.println("Pixel locatio  : " + ((tsi.w * c)) + "," + ((tsi.h * r)));
-//				System.out.println("Original Rec   : " + rect.toString());
-//				System.out.println("Clipping coords: " + ((tsi.w * c)+rect.x) + "," + ((tsi.h * r)+rect.y));
-				if(check(rect)){					
-					rect.setLocation(rect.x + (tsi.w * c),
-							rect.y + (tsi.h * r));
+				int mapX = (tsi.w * c);
+				int mapY = (tsi.h * r);
+				Rectangle rect = (Rectangle) tsi.tiles.get(String.valueOf(j)).clone();
+				if(!rect.isEmpty()){					
+					rect.setLocation(rect.x + mapX,rect.y + mapY);
 					clipping.add(rect);
 				}
-				tiles[c][r] = srcPoints.get(j);
+				map.getGraphics().drawImage(res.getSubimage(srcPoints.get(j).x, srcPoints.get(j).y, tsi.w,tsi.h),
+						mapX,
+						mapY,			
+						null);
 				i++;
 			}
-		}
-		System.out.println(clipping.size());
+		}		
 		opt();
 	}
-	
-	private boolean check(Rectangle r){
-		if(r.width == 0|| r.height == 0)
-			return false;
-		return true;
+	public Map(BufferedImage m){
+		map = m;
 	}
+	
+	public void draw(Graphics2D g){
+		g.drawImage(map, x, y, null);
+		drawClipping(g);
+	}
+	public void drawClipping(Graphics2D g){
+		g.setColor(new Color((float)1, (float)0, (float)0, (float)0.5));
+		for(Rectangle r: clipping){
+			g.fill(r);
+		}
+	}
+	
+	@Override
+	public Map clone(){
+		Map m = new Map(map);
+		m.setPos(x, y);
+		m.setClipping(clipping);
+		m.setDescription(description);
+		return m;
+	}
+	
+	private void setPos(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	private void setClipping(ArrayList<Rectangle> clipping){
+		this.clipping = clipping;
+	}	
+	private void setDescription(String description) {
+		this.description = description;
+	}
+	//optimising functions
 	private void opt(){
 		clipping = optimiseHorizon(clipping);
-		clipping = optimiseVertical(clipping);	
-		
+		clipping = optimiseVertical(clipping);			
 	}
 	private ArrayList<Rectangle> optimiseHorizon(ArrayList<Rectangle> b){
 		int counter = 0;

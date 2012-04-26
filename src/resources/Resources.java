@@ -87,7 +87,8 @@ public class Resources {
 			 Properties p = getIntP("map/" + dO.resourceLocation);
 			 TSI tsi = tileSheets.get(p.getProperty("system.source"));
 			 BufferedImage src = getIntImage(tsi.res);
-			 Map m = new Map(p, tsi, src);
+			 Map m = new Map(p, tsi, src, dO.description);
+			 maps.put(dO.name, m);
 		}
 		//stream interaction
 		//gather resources

@@ -6,10 +6,11 @@ public class Physics {
 	
 	public Physics(Towered t){
 		this.t = t;
+		
 	}
 	
 	public void update(long timePassed){
-		t.getCharacter();
+		t.getPlayer();
 		t.getAE();
 	}
 }
