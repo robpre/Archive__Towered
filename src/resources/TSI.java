@@ -81,6 +81,7 @@ public class TSI {
 	private void tile(Properties p) {
 		tiles = new HashMap<String, Rectangle>();
 		for(int i=0;i<count;i++){
+			System.out.println(type + i + ".bounds: ");
 			Rectangle bounds;
 			if(p.getProperty(type + i + ".bounds").equals("0"))
 				bounds = new Rectangle(0,0,0,0);

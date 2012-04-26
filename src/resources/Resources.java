@@ -81,9 +81,13 @@ public class Resources {
 				tsi = new TSI(getIntP("tiles/" + SETTINGS.QUALITY + "_" + dO.resourceLocation));
 			else
 				tsi = new TSI(getIntP("tiles/" + SETTINGS.QUALITY + "_" + dO.resourceLocation), dO.name, dO.description);
+			tileSheets.put(dO.name, tsi);
 		}
 		for(DataO dO: d.maps){
-			 
+			 Properties p = getIntP("map/" + dO.resourceLocation);
+			 TSI tsi = tileSheets.get(p.getProperty("system.source"));
+			 BufferedImage src = getIntImage(tsi.res);
+			 Map m = new Map(p, tsi, src);
 		}
 		//stream interaction
 		//gather resources
