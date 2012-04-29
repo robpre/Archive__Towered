@@ -32,6 +32,7 @@ public class Character extends Entity{
 	@Override
 	public void update(long timePassed) {
 		sprite.update(timePassed);
+		click = getClipping();
 	}
 
 	@Override

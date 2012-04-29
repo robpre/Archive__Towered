@@ -62,15 +62,6 @@ public abstract class C {
 		running = true;
 		activeEntities = new ArrayList<Entity>();
 		que = new ArrayList<QueItem>();
-		addDebugText("a");
-		addDebugText("a");
-		addDebugText("a");
-		addDebugText("a");
-		addDebugText("a");
-		addDebugText("a");
-		addDebugText("a");
-		addDebugText("a");
-		addDebugText("a");
 	}
 	
 	public void addKeyListener(KeyListener kl){
@@ -106,6 +97,14 @@ public abstract class C {
 		for(int i =0;i<getAE().size();i++){
 			if(getAE().get(i).type.contains("c"))
 				c = (Character)getAE().get(i);
+		}
+		if(c == null){
+			for(QueItem qe:que){
+				if(qe.mode){
+					if(qe.e.type.charAt(0)=='c')
+						c = (Character) qe.e;
+				}
+			}				
 		}
 		return c;
 	}
@@ -144,9 +143,6 @@ public abstract class C {
 			totTime+=timePassed;
 			
 			upKeep();
-			
-			setDebugText(0,"TimePassed :" + timePassed);
-			setDebugText(1,"Active Entities size: :" + getAE().size());
 			
 			update(timePassed);
 			

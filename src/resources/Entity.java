@@ -16,6 +16,7 @@ public abstract class Entity {
 	public void init(BufferedImage img){
 		clickable=false;
 		this.img = img;
+		speed=0;
 	}
 	
 	public void setX(int x){
@@ -29,6 +30,8 @@ public abstract class Entity {
 		this.x=x;
 		this.y=y;
 	}
+	
+	public abstract Rectangle getClipping();
 	
 	public abstract void update(long timePassed);
 	

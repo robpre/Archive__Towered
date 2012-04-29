@@ -63,4 +63,10 @@ public class Static extends Entity{
 		st.type = type;
 		return st;
 	}
+
+	@Override
+	public Rectangle getClipping() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

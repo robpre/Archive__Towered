@@ -34,26 +34,31 @@ public class Towered extends C{
 	
 	public void click(String s){
 		s = s.toLowerCase();
-		System.out.println("Clicked:" + s);
+		System.out.println("Clicked: " + s);
 		if(s.equals("exitbutton")){
 			close();
 		} else if(s.equals("startbutton")){
 			closeMenu();
 			System.out.println(resources.chars.toString());
 			addEntity(((Entity)resources.chars.get("Blarie").clone()));
+			getPlayer().test();
+			getPlayer().setPos(250, 350);
 		}
 	}
 	
 	public void pressed(char c){
 		switch(c){
 		case 'w':
-			getPlayer().test();
-			getPlayer().setPos(250, 350);
+			physics.jump();
 			break;
 		case 'd':
 			
 			break;
 		}
+	}
+	
+	public Map getMap(){
+		return activeMap;
 	}
 	
 	public void closeMenu(){
@@ -86,10 +91,10 @@ public class Towered extends C{
 	
 	@Override
 	public synchronized void update(long timePassed){
-		physics.update(timePassed);
 		for(Entity aE:getAE()){
 			aE.update(timePassed);
 		}
+		physics.update(timePassed);
 	}
 
 	@Override
@@ -100,7 +105,6 @@ public class Towered extends C{
 			aE.draw(g);
 		}
 		g.setColor(new Color(255, 0, 0));
-		drawDebugText(g);
 	}
 	
 	/*
