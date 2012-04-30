@@ -56,7 +56,7 @@ public class Map {
 	
 	public void draw(Graphics2D g){
 		g.drawImage(map, x, y, null);
-		drawClipping(g);
+		//drawClipping(g);
 	}
 	public void drawClipping(Graphics2D g){
 		g.setColor(new Color((float)1, (float)0, (float)0, (float)0.5));

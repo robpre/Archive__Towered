@@ -1,15 +1,16 @@
 package towered;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 
-import resources.Entity;
 import resources.Character;
+import resources.Entity;
 import resources.Static;
 
 public class Physics {
 	private double gravity;
 	private Towered t;
-	private boolean jumping;
+	private boolean jumping, canJump;
 	private int maxHeight;
 	
 	public Physics(Towered t){
@@ -23,7 +24,7 @@ public class Physics {
 	}
 	
 	public void jump(){
-		if(!jumping){
+		if(!jumping && canJump){
 			jumping = true;
 			maxHeight = t.getPlayer().y - 150;
 		}
@@ -33,15 +34,10 @@ public class Physics {
 		if(jumping){
 			int y = t.getPlayer().y;
 			y -= (timePassed * gravity);
-			Rectangle r = t.getPlayer().getClipping();
-			int cy = r.y;
-			cy -= (timePassed * gravity);
-			r.setLocation(r.x, cy);
-			if(!(checkCollision(r) || y <= maxHeight)){
+			jumping = !checkCollision(t.getPlayer().getClipping(), y);
+			jumping = !(y<=maxHeight);
+			if(jumping){
 				t.getPlayer().y=y;
-			}
-			if(y<=maxHeight || checkCollision(r)){
-				jumping = false;
 			}
 		}
 		
@@ -52,11 +48,10 @@ public class Physics {
 			if(!e.type.equals("s")){
 				int y = e.click.y;
 				y+=(timePassed * gravity);
-				Rectangle r = e.click;
-				r.setLocation(r.x, y);
-				if(!checkCollision(r) && !playerJumping(e)){
+				if(!checkCollision(e.getClipping(), y) && !playerJumping(e)){
 					e.y += (timePassed * gravity);
 				}
+				canJump = checkCollision(e.getClipping(), y);
 			}
 		}
 	}
@@ -68,6 +63,24 @@ public class Physics {
 		return false;
 	}
 	
+	public boolean checkCollision(Rectangle r, Point p){
+		Rectangle r1 = r;
+		r.setLocation(p);
+		for(Rectangle r2:t.getMap().clipping){
+			if(r1.intersects(r2))
+				return true;
+		}
+		return false;
+	}
+	public boolean checkCollision(Rectangle r, int y){
+		Rectangle r1 = r;
+		r1.setLocation(r.x, y);
+		for(Rectangle r2:t.getMap().clipping){
+			if(r1.intersects(r2))
+				return true;
+		}
+		return false;
+	}
 	private boolean checkCollision(Rectangle r){
 		for(Rectangle r1:t.getMap().clipping){
 			if(r.intersects(r1))

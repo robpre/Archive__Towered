@@ -19,7 +19,7 @@ public class Character extends Entity{
 	public Character(){}
 	
 	public void test(){
-		sprite.changeAnimation("idle");
+		sprite.changeAnimation("attack1");
 		sprite.isFacingLeft = !sprite.isFacingLeft;
 	}
 	
@@ -55,8 +55,8 @@ public class Character extends Entity{
 		} else {
 			g.drawImage(draw, x, y, null);
 		}
-		g.setColor(new Color((float)0,(float)1,(float)0,(float)0.5));
-		g.fill(getClipping());
+		//g.setColor(new Color((float)0,(float)1,(float)0,(float)0.5));
+		//g.fill(getClipping());
 	}
 
 
