@@ -10,7 +10,7 @@ import resources.Static;
 public class Physics {
 	private double gravity;
 	private Towered t;
-	private boolean jumping, canJump, moving, moveLeft, stuck;
+	private boolean jumping, canJump, moving, moveLeft;
 	private int maxHeight;
 	
 	public Physics(Towered t){
@@ -18,9 +18,8 @@ public class Physics {
 		gravity = 0.180;	
 		moving = false;
 		jumping = false;
-		canJump = false;
+		canJump = true;
 		moveLeft = false;
-		stuck=false;
 	}
 	
 	public void update(long timePassed){
@@ -32,6 +31,7 @@ public class Physics {
 		if(!jumping && canJump){
 			jumping = true;
 			maxHeight = t.getPlayer().y - 150;
+			canJump=false;
 		}
 	}
 	
@@ -53,6 +53,14 @@ public class Physics {
 	}
 	
 	private void move(long timePassed) {
+		if(jumping){
+			int y = t.getPlayer().y;
+			y -= (timePassed * gravity);
+			jumping = !(y<=maxHeight);
+			if(jumping){
+				jumping = moveTo(t.getPlayer(), t.getPlayer().x, y);
+			}
+		}
 		if(t.getPlayer()!=null)
 			if(t.getPlayer().y > t.gameSettings.RESOLUTION.height)
 				t.getPlayer().kill();
@@ -67,14 +75,6 @@ public class Physics {
 				moveTo(t.getPlayer(), x, t.getPlayer().y);
 			}
 		}
-		if(jumping){
-			int y = t.getPlayer().y;
-			y -= (timePassed * gravity);
-			jumping = !(y<=maxHeight);
-			if(jumping){
-				jumping = moveTo(t.getPlayer(), t.getPlayer().x, y);
-			}
-		}
 	}
 
 	public void applyGravity(long timePassed){
@@ -85,7 +85,8 @@ public class Physics {
 				if(!checkCollision(e.getClipping(), y) && !playerJumping(e)){
 					e.y += (timePassed * gravity);
 				}
-				canJump = checkCollision(e.getClipping(), y);
+				if(!canJump)
+					canJump = checkCollision(e.getClipping(), y);
 				if(checkCollision(e.getClipping())){
 					switch(collisionPosition(e.getClipping()).charAt(0)){
 					case 't':
@@ -103,9 +104,7 @@ public class Physics {
 						t.getPlayer().x += (timePassed * gravity);
 						break;
 					}
-					stuck = true;
 				} else {
-					stuck = false;
 				}
 			}
 		}
@@ -170,11 +169,13 @@ public class Physics {
 				break;
 			}
 		}
+		if(r1 == null || r == null)
+			return "bl";
 		Rectangle r2 = r1.intersection(r);
 		int x = r1.x + (r1.width/2);
 		int y = r1.y + (r1.height/2);
 		String s;
-		if(r2.y > y){
+		if(r2.y < y){
 			s = "t";
 			if(r2.x>x)
 				s += "r";
