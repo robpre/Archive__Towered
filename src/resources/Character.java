@@ -12,14 +12,14 @@ public class Character extends Entity{
 	public Character(BufferedImage img, TSI tsi){
 		this.img = img;
 		sprite = new Sprite(tsi, img.getWidth(), img.getHeight());
-		speed = 1.5;
+		speed = 0.5;
 		type = "c";
 	}
 	
 	public Character(){}
 	
 	public void test(){
-		sprite.changeAnimation("attack1");
+		sprite.changeAnimation("idle");
 		sprite.isFacingLeft = !sprite.isFacingLeft;
 	}
 	
@@ -57,6 +57,10 @@ public class Character extends Entity{
 		}
 		//g.setColor(new Color((float)0,(float)1,(float)0,(float)0.5));
 		//g.fill(getClipping());
+	}
+	
+	public void kill(){
+		System.out.println("IM DEAD");
 	}
 
 

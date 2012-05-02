@@ -17,6 +17,7 @@ public abstract class C {
 	public Settings gameSettings;
 	public Resources resources;	
 	public ScreenManager s;	
+	public String fps;
 	
 	private ArrayList<String> debugText;
 	private static String sStore;
@@ -55,6 +56,7 @@ public abstract class C {
 		} else {
 			resources = new Resources(gameSettings);
 		}
+		fps = "FPS :";
 		gameSettings = resources.SETTINGS.clone();
 		s = new ScreenManager(gameSettings);
 		s.launch();
@@ -144,6 +146,8 @@ public abstract class C {
 			
 			upKeep();
 			
+			fps = "Time passed from last update: " + timePassed;
+			
 			update(timePassed);
 			
 			Graphics2D g = s.getGraphics();
@@ -152,7 +156,7 @@ public abstract class C {
 			s.update();
 			
 			try{
-				Thread.sleep(25-timePassed);
+				Thread.sleep(20-timePassed);
 			}catch(Exception ex){}			
 		}
 	}

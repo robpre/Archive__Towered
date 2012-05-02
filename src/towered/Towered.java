@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import resources.Entity;
 import resources.Map;
@@ -20,6 +21,7 @@ public class Towered extends C{
 	private Listener listener;
 	private Physics physics;
 	private Map activeMap;
+	private boolean sticky;
 	
 	@Override
 	public void init(){
@@ -29,6 +31,7 @@ public class Towered extends C{
 		listener = new Listener();
 		s.gameWindow.addKeyListener(listener);
 		s.gameWindow.addMouseListener(listener);
+		s.gameWindow.addMouseMotionListener(listener);
 		physics = new Physics(this);
 	}
 	
@@ -52,7 +55,22 @@ public class Towered extends C{
 			physics.jump();
 			break;
 		case 'd':
-			
+			physics.moveRight();
+			break;
+		case 'a':
+			physics.moveLeft();
+			break;
+		}
+	}
+	public void released(char c){
+		switch(c){
+		case 'd':
+			physics.stopMove();
+			break;
+		case 'a':
+			physics.stopMove();
+			break;
+		default:
 			break;
 		}
 	}
@@ -90,7 +108,7 @@ public class Towered extends C{
 	}
 	
 	@Override
-	public synchronized void update(long timePassed){
+	public synchronized void update(long timePassed){			
 		for(Entity aE:getAE()){
 			aE.update(timePassed);
 		}
@@ -105,13 +123,15 @@ public class Towered extends C{
 			aE.draw(g);
 		}
 		g.setColor(new Color(255, 0, 0));
+		if(getPlayer()!=null)
+			g.fill(getPlayer().getClipping());
 	}
 	
 	/*
 	 * private inner class, listener
 	 */
 	
-	private class Listener implements KeyListener,MouseListener{
+	private class Listener implements KeyListener,MouseListener,MouseMotionListener{
 
 		public Listener(){
 		}
@@ -147,25 +167,40 @@ public class Towered extends C{
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+			sticky =false;
 		}
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			// TODO Auto-generated method stub
+			pressed(e.getKeyChar());
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
+			released(e.getKeyChar());			
 		}
 
 		@Override
 		public void keyTyped(KeyEvent e) {
-			pressed(e.getKeyChar());
+			//pressed(e.getKeyChar());
+		}
+
+		@Override
+		public void mouseDragged(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			if(getPlayer() != null){
+				if(getPlayer().getClipping().contains(arg0.getPoint()) || sticky){
+					getPlayer().setPos(arg0.getX(), arg0.getY());
+					if(!sticky)sticky=true;
+				}
+			}
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}
-
 }
