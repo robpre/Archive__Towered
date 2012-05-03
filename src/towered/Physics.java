@@ -15,16 +15,18 @@ public class Physics {
 	
 	public Physics(Towered t){
 		this.t = t;
-		gravity = 0.180;	
+		gravity = 0.180;
+		moveLeft = false;
 		moving = false;
 		jumping = false;
 		canJump = true;
-		moveLeft = false;
 	}
-	
+
 	public void update(long timePassed){
-		move(timePassed);
-		applyGravity(timePassed);
+		if(t.getMap()!=null && t.getPlayer() != null){
+			move(timePassed);
+			applyGravity(timePassed);
+		}
 	}
 	
 	public void jump(){
@@ -38,18 +40,15 @@ public class Physics {
 	public void moveLeft(){
 		moveLeft = true;
 		moving = true;
-		System.out.println("moving left");
 	}
 	
 	public void moveRight(){
 		moveLeft = false;
 		moving = true;
-		System.out.println("moving right");
 	}
 	
 	public void stopMove(){
 		moving = false;
-		System.out.println("stop");
 	}
 	
 	private void move(long timePassed) {
@@ -65,15 +64,31 @@ public class Physics {
 			if(t.getPlayer().y > t.gameSettings.RESOLUTION.height)
 				t.getPlayer().kill();
 		if(moving){
+			int mapOffsetX = -t.getMap().x;
+			int screenW = t.gameSettings.RESOLUTION.width;
+			int mapW = t.getMap().width;
+			int sSize = 250;
 			if(moveLeft){
-				int x = t.getPlayer().x;
-				x -= (t.getPlayer().speed*timePassed);
-				moveTo(t.getPlayer(), x, t.getPlayer().y);
+				if((t.getPlayer().x > sSize) || (t.getPlayer().x <= sSize && mapOffsetX <= 0)){
+					int x = t.getPlayer().x;
+					x -= (t.getPlayer().speed*timePassed);
+					moveTo(t.getPlayer(), x, t.getPlayer().y);
+				} else if(t.getPlayer().x <= sSize && mapOffsetX > 0){
+					mapOffsetX -= (t.getPlayer().speed*timePassed);
+				}
 			} else {
-				int x = t.getPlayer().x;
-				x += (t.getPlayer().speed*timePassed);
-				moveTo(t.getPlayer(), x, t.getPlayer().y);
+				if((t.getPlayer().x < screenW - sSize) || (t.getPlayer().x >= screenW - sSize && mapOffsetX >= mapW - screenW)){
+					int x = t.getPlayer().x;
+					x += (t.getPlayer().speed*timePassed);
+					moveTo(t.getPlayer(), x, t.getPlayer().y);
+				} else if(t.getPlayer().x >= screenW - sSize && mapOffsetX < mapW - screenW){
+					mapOffsetX += (t.getPlayer().speed*timePassed);
+				}
 			}
+			if(mapOffsetX > 0)
+				t.getMap().x = -mapOffsetX;
+			else
+				t.getMap().x = 0;
 		}
 	}
 
@@ -85,7 +100,6 @@ public class Physics {
 				if(!checkCollision(e.getClipping(), y) && !playerJumping(e)){
 					e.y += (timePassed * gravity);
 				}
-				if(!canJump)
 					canJump = checkCollision(e.getClipping(), y);
 				if(checkCollision(e.getClipping())){
 					switch(collisionPosition(e.getClipping()).charAt(0)){
@@ -138,7 +152,7 @@ public class Physics {
 	public boolean checkCollision(Rectangle r, Point p){
 		Rectangle r1 = r;
 		r.setLocation(p);
-		for(Rectangle r2:t.getMap().clipping){
+		for(Rectangle r2:t.getMap().getClipping()){
 			if(r1.intersects(r2))
 				return true;
 		}
@@ -147,14 +161,14 @@ public class Physics {
 	public boolean checkCollision(Rectangle r, int y){
 		Rectangle r1 = r;
 		r1.setLocation(r.x, y);
-		for(Rectangle r2:t.getMap().clipping){
+		for(Rectangle r2:t.getMap().getClipping()){
 			if(r1.intersects(r2))
 				return true;
 		}
 		return false;
 	}
 	private boolean checkCollision(Rectangle r){
-		for(Rectangle r1:t.getMap().clipping){
+		for(Rectangle r1:t.getMap().getClipping()){
 			if(r.intersects(r1))
 				return true;
 		}
@@ -163,7 +177,7 @@ public class Physics {
 	
 	private String collisionPosition(Rectangle r){
 		Rectangle r1 = null;
-		for(Rectangle tr:t.getMap().clipping){
+		for(Rectangle tr:t.getMap().getClipping()){
 			if(r.intersects(tr)){
 				r1 = tr;
 				break;

@@ -13,7 +13,7 @@ public class Map {
 	public ArrayList<Rectangle> clipping;
 	public String description;
 	private BufferedImage map;
-	public int x,y;
+	public int x,y,width,height;
 	
 	public Map(Properties p, TSI tsi, BufferedImage res, String des){
 		description = des;
@@ -47,7 +47,9 @@ public class Map {
 						null);
 				i++;
 			}
-		}		
+		}	
+		width = tsi.w * w;
+		height = tsi.h * h;
 		opt();
 	}
 	public Map(BufferedImage m){
@@ -60,9 +62,18 @@ public class Map {
 	}
 	public void drawClipping(Graphics2D g){
 		g.setColor(new Color((float)1, (float)0, (float)0, (float)0.5));
-		for(Rectangle r: clipping){
+		for(Rectangle r: getClipping()){
 			g.fill(r);
 		}
+	}
+	public ArrayList<Rectangle> getClipping(){
+		ArrayList<Rectangle> c = new ArrayList<Rectangle>();
+		for(Rectangle r: clipping){
+			Rectangle r1 = (Rectangle) r.clone();
+			r1.setLocation(x + r.x, y + r.y);
+			c.add(r1);
+		}
+		return c;
 	}
 	
 	@Override
@@ -71,9 +82,11 @@ public class Map {
 		m.setPos(x, y);
 		m.setClipping(clipping);
 		m.setDescription(description);
+		m.width = width;
+		m.height = height;
 		return m;
 	}
-	
+
 	private void setPos(int x, int y){
 		this.x = x;
 		this.y = y;

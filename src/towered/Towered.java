@@ -1,6 +1,7 @@
 package towered;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -49,30 +50,19 @@ public class Towered extends C{
 		}
 	}
 	
-	public void pressed(char c){
-		switch(c){
-		case 'w':
+	public void pressed(int c){
+		if(c == gameSettings.JUMPKEY)
 			physics.jump();
-			break;
-		case 'd':
-			physics.moveRight();
-			break;
-		case 'a':
+		if(c == gameSettings.LEFTKEY)
 			physics.moveLeft();
-			break;
-		}
+		if(c == gameSettings.RIGHTKEY)
+			physics.moveRight();
 	}
-	public void released(char c){
-		switch(c){
-		case 'd':
+	public void released(int c){
+		if(c == gameSettings.LEFTKEY)
 			physics.stopMove();
-			break;
-		case 'a':
+		if(c == gameSettings.RIGHTKEY)
 			physics.stopMove();
-			break;
-		default:
-			break;
-		}
 	}
 	
 	public Map getMap(){
@@ -117,14 +107,20 @@ public class Towered extends C{
 
 	@Override
 	public synchronized void draw(Graphics2D g) {
-		if(activeMap!=null)
+		if(activeMap!=null){
 			activeMap.draw(g);
+			g.setColor(new Color(0f, 1f, 0f, 0.5f));
+			g.setFont(new Font("Serif", Font.BOLD, 32));
+			g.drawString(getMap().x + "," + getMap().y, 50, 50);
+		}
 		for(Entity aE:getAE()){
 			aE.draw(g);
 		}
-		g.setColor(new Color(255, 0, 0));
-		if(getPlayer()!=null)
-			g.fill(getPlayer().getClipping());
+//		g.setColor(new Color(255, 0, 0, 155));
+//		g.fillRect(0, 0, 250, gameSettings.RESOLUTION.height);
+//		g.fillRect(gameSettings.RESOLUTION.width-250, 0, 250, gameSettings.RESOLUTION.height);
+//		g.setColor(new Color(0, 255, 0, 155));		
+//		g.fillRect(250, 0, gameSettings.RESOLUTION.width-500, gameSettings.RESOLUTION.height);
 	}
 	
 	/*
@@ -172,17 +168,20 @@ public class Towered extends C{
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			pressed(e.getKeyChar());
+			if(e.getExtendedKeyCode()==KeyEvent.VK_LEFT)
+				getMap().x -= 48;
+			if(e.getKeyCode()==KeyEvent.VK_RIGHT)
+				getMap().x += 48;		
+			pressed(e.getKeyCode());
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			released(e.getKeyChar());			
+			released(e.getKeyCode());			
 		}
 
 		@Override
-		public void keyTyped(KeyEvent e) {
-			//pressed(e.getKeyChar());
+		public void keyTyped(KeyEvent e) {	
 		}
 
 		@Override

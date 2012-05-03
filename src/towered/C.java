@@ -156,7 +156,7 @@ public abstract class C {
 			s.update();
 			
 			try{
-				Thread.sleep(20-timePassed);
+				Thread.sleep(10-timePassed);
 			}catch(Exception ex){}			
 		}
 	}
