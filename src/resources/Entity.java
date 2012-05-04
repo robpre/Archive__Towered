@@ -10,7 +10,7 @@ public abstract class Entity {
 	public boolean clickable;
 	public Rectangle click;
 	public String sceneName;
-	public double speed;
+	public float speed;
 	public String type;
 	
 	public void init(BufferedImage img){

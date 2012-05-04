@@ -57,6 +57,14 @@ public class Sprite{
 		return s.substring(s.indexOf("_")+1);
 	}
 	
+	public HashMap<String, Animation> getAnimations(){
+		return anims;
+	}
+	
+	public boolean animDone(){
+		return currentAnim.getDone();
+	}
+	
 	public void changeAnimation(String s){
 		//deal with if character is already animating with the changed anim
 		currentAnim = anims.get(s);		

@@ -8,6 +8,8 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import resources.Entity;
 import resources.Map;
@@ -50,19 +52,26 @@ public class Towered extends C{
 		}
 	}
 	
-	public void pressed(int c){
-		if(c == gameSettings.JUMPKEY)
+	public void pressed(){
+		if(listener.findKeys(gameSettings.LEFTKEY,gameSettings.RIGHTKEY)){
+			if(listener.findKey(gameSettings.LEFTKEY) > listener.findKey(gameSettings.RIGHTKEY))
+				physics.moveLeft();
+			else
+				physics.moveRight();
+		} else {
+			physics.stopMoveIdle();
+		}
+		if(listener.findKeys(gameSettings.ATTACKKEY)){
+			physics.attack();
+		} else {
+			physics.stopAttacking();
+		}
+		if(listener.findKeys(gameSettings.JUMPKEY)){
 			physics.jump();
-		if(c == gameSettings.LEFTKEY)
-			physics.moveLeft();
-		if(c == gameSettings.RIGHTKEY)
-			physics.moveRight();
-	}
-	public void released(int c){
-		if(c == gameSettings.LEFTKEY)
-			physics.stopMove();
-		if(c == gameSettings.RIGHTKEY)
-			physics.stopMove();
+		}
+		if(!listener.findKeys(gameSettings.LEFTKEY,gameSettings.RIGHTKEY,gameSettings.ATTACKKEY)){
+			physics.stopMoveIdle();
+		}
 	}
 	
 	public Map getMap(){
@@ -103,19 +112,24 @@ public class Towered extends C{
 			aE.update(timePassed);
 		}
 		physics.update(timePassed);
+		if(getPlayer() != null)
+			pressed();
 	}
 
 	@Override
 	public synchronized void draw(Graphics2D g) {
 		if(activeMap!=null){
 			activeMap.draw(g);
-			g.setColor(new Color(0f, 1f, 0f, 0.5f));
+			g.setColor(new Color(0f, 1f, 1f));
 			g.setFont(new Font("Serif", Font.BOLD, 32));
 			g.drawString(getMap().x + "," + getMap().y, 50, 50);
+			g.drawString(listener.commandPipe.toString(), 50, 100);
 		}
 		for(Entity aE:getAE()){
 			aE.draw(g);
 		}
+		//if(getPlayer()!=null)
+			//g.fill(getPlayer().getClipping());
 //		g.setColor(new Color(255, 0, 0, 155));
 //		g.fillRect(0, 0, 250, gameSettings.RESOLUTION.height);
 //		g.fillRect(gameSettings.RESOLUTION.width-250, 0, 250, gameSettings.RESOLUTION.height);
@@ -128,8 +142,39 @@ public class Towered extends C{
 	 */
 	
 	private class Listener implements KeyListener,MouseListener,MouseMotionListener{
+		
+		private ArrayList<Integer> commandPipe;
 
 		public Listener(){
+			commandPipe = new ArrayList<Integer>();
+		}
+		
+		public ArrayList<Integer> getCommands(){
+			return commandPipe;
+		}
+		
+		public int findKey(int i){
+			if(commandPipe.contains(i))
+				return commandPipe.lastIndexOf(i);
+			else
+				return -1;
+		}
+		
+		public boolean findKeys(int... i){
+			for(int i1=0;i1 < i.length;i1++){
+				if(commandPipe.contains((Object)i[i1]))
+					return true;
+			}
+			return false;
+		}
+		
+		private void addCommand(int i){
+			if(!commandPipe.contains(i))
+				commandPipe.add(i);
+		}
+		
+		private void removeKey(int i){
+			commandPipe.remove((Object)i);
 		}
 
 		@Override
@@ -172,12 +217,12 @@ public class Towered extends C{
 				getMap().x -= 48;
 			if(e.getKeyCode()==KeyEvent.VK_RIGHT)
 				getMap().x += 48;		
-			pressed(e.getKeyCode());
+			addCommand(e.getKeyCode());
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			released(e.getKeyCode());			
+			removeKey(e.getKeyCode());	
 		}
 
 		@Override

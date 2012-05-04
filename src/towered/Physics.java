@@ -10,12 +10,12 @@ import resources.Static;
 public class Physics {
 	private double gravity;
 	private Towered t;
-	private boolean jumping, canJump, moving, moveLeft;
+	private boolean jumping, canJump, moving, moveLeft, attacking;
 	private int maxHeight;
 	
 	public Physics(Towered t){
 		this.t = t;
-		gravity = 0.180;
+		gravity = 0.25;
 		moveLeft = false;
 		moving = false;
 		jumping = false;
@@ -38,18 +38,70 @@ public class Physics {
 	}
 	
 	public void moveLeft(){
+		if(!t.getPlayer().isFacingLeft())
+			t.getPlayer().setOLeft(true);
 		moveLeft = true;
-		moving = true;
+		if(!moving){
+			moving = true;
+			if(!attacking)
+				t.getPlayer().setAnimation("walk");
+		}
 	}
 	
 	public void moveRight(){
+		if(t.getPlayer().isFacingLeft())
+			t.getPlayer().setOLeft(false);
 		moveLeft = false;
-		moving = true;
+		if(!moving){
+			moving = true;
+			if(!attacking)
+				t.getPlayer().setAnimation("walk");
+		}		
+	}
+	
+	public void attack() {
+		if(!attacking){
+			attacking = true;
+			t.getPlayer().setAnimation((String)randomChoice("attack1","attack2"));
+		}			
+	}
+	
+	public void stopAttacking(){
+		if(t.getPlayer().animationComplete() && attacking){
+			attacking = false;
+			t.getPlayer().setAnimation("idle");
+		}
+	}
+	
+	private Object randomChoice(Object... o){
+		return o[ranNum(0,o.length-1)];
+	}
+	
+	public int ranNum(int i1, int i2){
+		return i1 + (int)(Math.random() * ((i2 - i1) + 1));
 	}
 	
 	public void stopMove(){
 		moving = false;
 	}
+	
+	public void stopMoveIdle(){
+		if(moving){
+			if(!attacking)
+				t.getPlayer().setAnimation("idle");
+			moving = false;
+		}
+	}
+	
+	/*
+	 * move method, this is ran every game tick. 
+	 * 
+	 * this controls when to move the player or the screen
+	 * 
+	 * and jmuping
+	 * 
+	 * 
+	 */
 	
 	private void move(long timePassed) {
 		if(jumping){
@@ -100,26 +152,27 @@ public class Physics {
 				if(!checkCollision(e.getClipping(), y) && !playerJumping(e)){
 					e.y += (timePassed * gravity);
 				}
-					canJump = checkCollision(e.getClipping(), y);
-				if(checkCollision(e.getClipping())){
-					switch(collisionPosition(e.getClipping()).charAt(0)){
-					case 't':
-						t.getPlayer().y -= (timePassed * gravity);
-						break;
-					case 'b':
-						t.getPlayer().y += (timePassed * gravity);
-						break;
-					}
-					switch(collisionPosition(e.getClipping()).charAt(1)){
-					case 'l':
-						t.getPlayer().x -= (timePassed * gravity);
-						break;
-					case 'r':
-						t.getPlayer().x += (timePassed * gravity);
-						break;
-					}
-				} else {
-				}
+				canJump = checkCollision(e.getClipping(), y);
+//				if(checkCollision(e.getClipping())){
+//					System.out.println("Clipping!");
+//					switch(collisionPosition(e.getClipping()).charAt(0)){
+//					case 't':
+//						t.getPlayer().y -= (timePassed * gravity);
+//						break;
+//					case 'b':
+//						t.getPlayer().y += (timePassed * gravity);
+//						break;
+//					}
+//					switch(collisionPosition(e.getClipping()).charAt(1)){
+//					case 'l':
+//						t.getPlayer().x -= (timePassed * gravity);
+//						break;
+//					case 'r':
+//						t.getPlayer().x += (timePassed * gravity);
+//						break;
+//					}
+//				} else {
+//				}
 			}
 		}
 	}
@@ -145,6 +198,7 @@ public class Physics {
 			e.setPos(x, y);
 			return true;
 		} else {
+			System.out.println("Can't move! : " + x + "," + y);
 			return false;
 		}
 	}

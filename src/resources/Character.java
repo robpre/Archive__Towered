@@ -1,9 +1,9 @@
 package resources;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Map.Entry;
 
 public class Character extends Entity{
 		
@@ -12,7 +12,7 @@ public class Character extends Entity{
 	public Character(BufferedImage img, TSI tsi){
 		this.img = img;
 		sprite = new Sprite(tsi, img.getWidth(), img.getHeight());
-		speed = 0.5;
+		speed = 0.15f;
 		type = "c";
 	}
 	
@@ -21,6 +21,25 @@ public class Character extends Entity{
 	public void test(){
 		sprite.changeAnimation("idle");
 		sprite.isFacingLeft = !sprite.isFacingLeft;
+	}
+	
+	public void setAnimation(String s){
+		for(Entry<String, Animation> entry: sprite.getAnimations().entrySet()){
+			if(entry.getKey().contains(s))
+				sprite.changeAnimation(entry.getKey());
+		}
+	}
+	
+	public boolean animationComplete(){
+		return sprite.animDone();
+	}
+	
+	public boolean isFacingLeft(){
+		return sprite.isFacingLeft;
+	}
+	
+	public void setOLeft(boolean b){
+		sprite.isFacingLeft = b;
 	}
 	
 	public Rectangle getClipping(){

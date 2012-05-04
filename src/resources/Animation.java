@@ -10,6 +10,7 @@ public class Animation {
 	private long movieTime,totalTime;
 	private ArrayList<Scene> scenes;
 	private int index;
+	private boolean done;
 	
 	public Animation(){
 		scenes = new ArrayList<Scene>();
@@ -20,6 +21,7 @@ public class Animation {
 	public void start(){
 		index=0;
 		movieTime=0;
+		done = false;
 	}
 	
 	public synchronized Point getPoint(){
@@ -28,6 +30,10 @@ public class Animation {
 	
 	public synchronized Rectangle getClip(){
 		return scenes.get(index).clip;
+	}
+	
+	public boolean getDone(){
+		return done;
 	}
 	
 	public synchronized void add(Point p, long len, Rectangle clip){
@@ -41,6 +47,7 @@ public class Animation {
 			if(movieTime >= totalTime){
 				movieTime = 0;
 				index = 0;
+				done = true;
 			}
 			while(movieTime > getScene(index).len){
 				index++;

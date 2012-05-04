@@ -2,13 +2,11 @@ package towered;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import resources.Character;
 import resources.Entity;
 import resources.Resources;
-import resources.Character;
 import resources.Static;
 import window.ScreenManager;
 
@@ -64,14 +62,6 @@ public abstract class C {
 		running = true;
 		activeEntities = new ArrayList<Entity>();
 		que = new ArrayList<QueItem>();
-	}
-	
-	public void addKeyListener(KeyListener kl){
-		s.gameWindow.addKeyListener(kl);
-	}
-	
-	public void addKeyListener(MouseListener ml){
-		s.gameWindow.addMouseListener(ml);
 	}
 	
 	public ArrayList<Entity> getAE(){
@@ -156,7 +146,7 @@ public abstract class C {
 			s.update();
 			
 			try{
-				Thread.sleep(10-timePassed);
+				Thread.sleep(30-timePassed);
 			}catch(Exception ex){}			
 		}
 	}
