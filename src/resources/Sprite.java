@@ -51,7 +51,6 @@ public class Sprite{
 			d = strip(name);
 		}
 		changeAnimation(d);
-		cClip=
 	}
 	
 	private String strip(String s){

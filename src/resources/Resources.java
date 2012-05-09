@@ -115,7 +115,7 @@ public class Resources {
 				32,
 				65,
 				68,
-				32
+				17
 		);
 	}
 	

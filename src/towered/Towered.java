@@ -213,7 +213,7 @@ public class Towered extends C{
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if(e.getExtendedKeyCode()==KeyEvent.VK_LEFT)
+			if(e.getKeyCode()==KeyEvent.VK_LEFT)
 				getMap().x -= 48;
 			if(e.getKeyCode()==KeyEvent.VK_RIGHT)
 				getMap().x += 48;		

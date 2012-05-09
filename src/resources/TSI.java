@@ -13,6 +13,7 @@ public class TSI {
 	public int 	w,
 				h,
 				count;
+	public Rectangle bounds;
 	public boolean left;
 	public HashMap<String, Rectangle> tiles; //Contains each tile: name, bounds info
 	
@@ -60,6 +61,7 @@ public class TSI {
 	}
 
 	private void character(Properties p) {
+		bounds = conv(p.getProperty("char.bounds"));
 		switch(p.getProperty("system.orientation").charAt(0)){
 		case 'r':
 			left=false;
