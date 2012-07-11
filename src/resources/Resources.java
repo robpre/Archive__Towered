@@ -26,7 +26,10 @@ public class Resources {
 	
 	
 	public Resources(Settings s){
-		settingsLoc = System.getenv("appdata") + "\\" + s.GAMENAME + "\\game.settings";
+		if(System.getProperty("os.name").toLowerCase().equals("linux"))
+			settingsLoc="$HOME/." + s.GAMENAME + "/game.settings";
+		else
+			settingsLoc = System.getenv("appdata") + "\\" + s.GAMENAME + "\\game.settings";
 		init(s);
 	}
 	
